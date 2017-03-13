@@ -14,13 +14,11 @@ kernel:
     - make olddefconfig
     - make clean
     - make -j `getconf _NPROCESSORS_ONLN` deb-pkg LOCALVERSION=-acso
-    - mkdir artifacts
-    - cp ../*.deb artifacts
-    - cp ../*.tar.gz artifacts 
-    - cp ../*.changes artifacts
-    - cp ../*.dsc artifacts
   only:
-    - triggers  
+    - triggers
   artifacts:
     paths: 
-      - artifacts/*
+      - *.deb
+      - *.tar.gz
+      - *.changes
+      - *.dsc
