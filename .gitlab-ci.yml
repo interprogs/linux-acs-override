@@ -18,7 +18,7 @@ kernel:
     - triggers
   artifacts:
     paths: 
-      - *.deb
-      - *.tar.gz
-      - *.changes
-      - *.dsc
+      - ./*.deb
+      - ./*.tar.gz
+      - ./*.changes
+      - ./*.dsc
