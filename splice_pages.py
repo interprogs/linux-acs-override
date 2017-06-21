@@ -34,27 +34,38 @@ def file_uri(job_id, filename):
 
 
 def image_uri(job_id, kernel_number):
-    return file_uri(job_id, 'linux-image-{}-acso_{}-acso-1_amd64.deb'.format(kernel_number))
+    return file_uri(job_id, 'linux-image-{0}-acso_{0}-acso-1_amd64.deb'.format(kernel_number))
 
 
 def headers_uri(job_id, kernel_number):
-    return file_uri(job_id, 'linux-headers-{}-acso_{}-acso-1_amd64.deb'.format(kernel_number))
+    return file_uri(job_id, 'linux-headers-{0}-acso_{0}-acso-1_amd64.deb'.format(kernel_number))
 
 
 def firmware_uri(job_id, kernel_number):
-    return file_uri(job_id, 'linux-firmware-image-{}-acso_{}-acso-1_amd64.deb'.format(kernel_number))
+    return file_uri(job_id, 'linux-firmware-image-{0}-acso_{0}-acso-1_amd64.deb'.format(kernel_number))
 
 
 def download_all_uri(job_id):
-    return '{}/download'.format(job_id)
+    return '{}/download'.format(make_artifact_uri(job_id))
 
 
 def browse_all_uri(job_id):
-    return '{}/browse'.format(job_id)
+    return '{}/browse'.format(make_artifact_uri(job_id))
 
 
 def kernel_number_from_title(kernel_title):
-    return kernel_title.split(':')[0].strip()
+    kern_number = kernel_title.split(':')[0].strip()
+
+    if kern_number.count('.') == 1:
+        kern_maj_min, kern_rc = kern_number.split('-')
+        kern_maj_min_patch = '{}.0'.format(kern_maj_min)
+
+        if kern_rc is None:
+            return kern_maj_min_patch
+        else:
+            return '{}-{}'.format(kern_maj_min_patch, kern_rc)
+    else:
+        return kernel_number
 
 
 kernel_title = sys.argv[1]
@@ -64,9 +75,9 @@ with open('kern_job_id') as f:
     job_id = f.read()
 
 with open('index.html') as f:
-    soup = BeautifulSoup(f)
+    soup = BeautifulSoup(f, 'html.parser')
 
-new_kernel_section = template.format(
+new_kernel_section_src = template.format(
     kernel_title=kernel_title,
     image_uri=image_uri(job_id, kernel_number),
     headers_uri=headers_uri(job_id, kernel_number),
@@ -74,9 +85,10 @@ new_kernel_section = template.format(
     download_uri=download_all_uri(job_id),
     browse_uri=browse_all_uri(job_id)
 )
+new_kernel_section = BeautifulSoup(new_kernel_section_src, 'html.parser')
 
-kernels_section = soup.find_all('section', class_="kernel-builds")
-soup.insert(0, new_kernel_section)
+kernels_section = soup.select('.kernel-builds')
+kernels_section[0].insert(0, new_kernel_section)
 
-with open('index.html', mode='rw') as f:
+with open('index.html', mode='w') as f:
     f.write(soup.prettify())
