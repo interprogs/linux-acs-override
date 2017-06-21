@@ -1,5 +1,8 @@
 image: ubuntu:16.10
 
+variables:
+  DOCKER_DRIVER: overlay2
+
 stages:
   - build
   - deploy
@@ -41,8 +44,8 @@ pages:
     - git commit -m "$KERN_MSG_TITLE"
     - git push
     - mv .public public
+  only:
+    - triggers
   artifacts:
     paths:
     - public
-  only:
-    - triggers
