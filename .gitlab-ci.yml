@@ -23,6 +23,7 @@ kernel:
     - make -j `getconf _NPROCESSORS_ONLN` deb-pkg LOCALVERSION=-acso
     - echo $CI_JOB_ID >> kern_job_id
   cache:
+    key: "$CI_PIPELINE_ID"
     paths:
       - kern_job_id
   only:
@@ -44,6 +45,8 @@ pages:
     - git commit -m "$KERN_MSG_TITLE"
     - git push
     - mv .public public
+  cache:
+    key: "$CI_PIPELINE_ID"
   only:
     - triggers
   artifacts:
