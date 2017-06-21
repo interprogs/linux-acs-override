@@ -37,6 +37,7 @@ pages:
     - git checkout pages
     - python3.5 splice_page.py "$KERN_MSG_TITLE"
     - cp index.html public/index.html
+    - git add index.html
     - git commit -m "$KERN_MSG_TITLE"
     - git push
     - mv .public public
