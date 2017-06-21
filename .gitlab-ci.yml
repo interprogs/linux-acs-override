@@ -43,6 +43,5 @@ pages:
   artifacts:
     paths:
     - public
-  only:
-    - triggers
-    - manual
+  when:
+    manual
