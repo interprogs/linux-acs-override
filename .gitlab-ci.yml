@@ -45,3 +45,4 @@ pages:
     - public
   only:
     - triggers
+    - manual
