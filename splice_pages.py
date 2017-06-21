@@ -2,6 +2,7 @@
 # https://gitlab.com/Queuecumber/linux-acs-override/-/jobs/19157117/artifacts/download
 # https://gitlab.com/Queuecumber/linux-acs-override/-/jobs/19157117/artifacts/browse
 
+import sys
 from bs4 import BeautifulSoup
 
 template = """
@@ -29,7 +30,7 @@ def make_artifact_uri(job_id):
 
 
 def file_uri(job_id, filename):
-    return '{}/raw/{}'.format(make_artifact_uri('job_id'), filename)
+    return '{}/raw/{}'.format(make_artifact_uri(job_id), filename)
 
 
 def image_uri(job_id, kernel_number):
@@ -52,7 +53,30 @@ def browse_all_uri(job_id):
     return '{}/browse'.format(job_id)
 
 
+def kernel_number_from_title(kernel_title):
+    return kernel_title.split(':')[0].strip()
+
+
+kernel_title = sys.argv[1]
+kernel_number = kernel_number_from_title(kernel_title)
+
+with open('kern_job_id') as f:
+    job_id = f.read()
+
 with open('index.html') as f:
     soup = BeautifulSoup(f)
 
+new_kernel_section = template.format(
+    kernel_title=kernel_title,
+    image_uri=image_uri(job_id, kernel_number),
+    headers_uri=headers_uri(job_id, kernel_number),
+    firmware_uri=firmware_uri(job_id, kernel_number),
+    download_uri=download_all_uri(job_id),
+    browse_uri=browse_all_uri(job_id)
+)
+
 kernels_section = soup.find_all('section', class_="kernel-builds")
+soup.insert(0, new_kernel_section)
+
+with open('index.html', mode='rw') as f:
+    f.write(soup.prettify())
