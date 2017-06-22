@@ -5,23 +5,42 @@
 import sys
 from bs4 import BeautifulSoup
 
-template = """
-    <div data-kernel="{kernel_title}">
-                <h2>{kernel_title}</h2>
-                <ul>
-                    <li>
-                        <a href="{image_uri}">Image</a>
-                    </li>
-                    <li>
-                        <a href="{headers_uri}">Headers</a>
-                    </li>
-                    <li>
-                        <a href="{firmware_uri}">Firmware Image</a>
-                    </li>
-                </ul>
-                <a href="{download_uri}">Download All</a>
-                <a href="{browse_uri}">Browse All</a>
-            </div>
+kernel_template = """
+<div class="kernel" data-kernel="{kernel_title}">
+    <h3>{kernel_title}</h3>
+    <ul>
+        <li>
+            <a href="{image_uri}">Image</a>
+        </li>
+        <li>
+            <a href="{headers_uri}">Headers</a>
+        </li>
+        <li>
+            <a href="{firmware_uri}">Firmware Image</a>
+        </li>
+    </ul>
+    <div class="btn-group">
+        <a class="btn btn-secondary" href="{download_uri}">Download All</a>
+        <a class="btn btn-secondary" href="{browse_uri}">Browse All</a>
+    </div>
+</div>
+"""
+
+section_template = """
+<div class="card k{kernel_series_collapsed}">
+    <div class="card-header">
+        <h2>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapse{kernel_series_collapsed}">
+                {kernel_series} Series
+            </a>
+        </h2>
+    </div>
+
+    <div id="collapse{kernel_series_collapsed}" class="collapse">
+        <div class="card-block">
+        </div>
+    </div>
+</div>
 """
 
 
@@ -68,8 +87,14 @@ def kernel_number_from_title(kernel_title):
         return kernel_number
 
 
+def kernel_series_from_number(kernel_number):
+    kernel_parts = kernel_number.split('.')
+    return '{}.{}'.format(kernel_parts[0], kernel_parts[1]), '{}{}'.format(kernel_parts[0], kernel_parts[1])
+
+
 kernel_title = sys.argv[1]
 kernel_number = kernel_number_from_title(kernel_title)
+kernel_series, kernel_series_collapsed = kernel_series_from_number(kernel_number)
 
 with open('kern_job_id') as f:
     job_id = f.read()
@@ -77,7 +102,7 @@ with open('kern_job_id') as f:
 with open('index.html') as f:
     soup = BeautifulSoup(f, 'html.parser')
 
-new_kernel_section_src = template.format(
+new_kernel_section_src = kernel_template.format(
     kernel_title=kernel_title,
     image_uri=image_uri(job_id, kernel_number),
     headers_uri=headers_uri(job_id, kernel_number),
