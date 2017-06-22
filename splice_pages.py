@@ -84,7 +84,7 @@ def kernel_number_from_title(kernel_title):
         else:
             return '{}-{}'.format(kern_maj_min_patch, kern_rc)
     else:
-        return kernel_number
+        return kern_number
 
 
 def kernel_series_from_number(kernel_number):
@@ -113,7 +113,17 @@ new_kernel_section_src = kernel_template.format(
 new_kernel_section = BeautifulSoup(new_kernel_section_src, 'html.parser')
 
 kernels_section = soup.select('.kernel-builds')
-kernels_section[0].insert(0, new_kernel_section)
+kernels_series_section = kernels_section[0].select('.k{}'.format(kernel_series_collapsed))
+
+if len(kernels_series_section) == 0:
+    kernels_series_section_src = section_template.format(
+        kernel_series=kernel_series,
+        kernel_series_collapsed=kernel_series_collapsed
+    )
+    kernels_series_section = [BeautifulSoup(kernels_series_section_src, 'html.parser')]
+    kernels_section[0].select('#accordion')[0].insert(0, kernels_series_section[0])
+
+kernels_series_section[0].select('.card-block')[0].insert(0, new_kernel_section)
 
 with open('index.html', mode='w') as f:
     f.write(soup.prettify())
