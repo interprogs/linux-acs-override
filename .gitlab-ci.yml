@@ -10,6 +10,11 @@ stages:
 before_script:
   - apt-get update -qq && apt-get install -y -qq git python3.5
 
+cache:
+    key: "$CI_PIPELINE_ID"
+    paths:
+      - kern_job_id
+
 kernel:
   stage: build
   script:
@@ -24,10 +29,6 @@ kernel:
     - make -j `getconf _NPROCESSORS_ONLN` deb-pkg LOCALVERSION=-acso
     - cd ..
     - echo $CI_JOB_ID >> kern_job_id
-  cache:
-    key: "$CI_PIPELINE_ID"
-    paths:
-      - kern_job_id
   only:
     - triggers
   artifacts:
@@ -49,8 +50,6 @@ pages:
     - git commit -m "$KERN_MSG_TITLE"
     - git push
     - mv .public public
-  cache:
-    key: "$CI_PIPELINE_ID"
   only:
     - triggers
   artifacts:
