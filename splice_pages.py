@@ -96,8 +96,7 @@ kernel_title = sys.argv[1]
 kernel_number = kernel_number_from_title(kernel_title)
 kernel_series, kernel_series_collapsed = kernel_series_from_number(kernel_number)
 
-with open('kern_job_id') as f:
-    job_id = f.read()
+job_id = sys.argv[2]
 
 with open('index.html') as f:
     soup = BeautifulSoup(f, 'html.parser')
