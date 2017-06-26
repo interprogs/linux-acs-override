@@ -44,7 +44,7 @@ pages:
     - export KERN_JOB_ID=$(cat kern_job_id)
     - "echo Job ID: $KERN_JOB_ID"
     - git checkout pages
-    - python3.5 splice_page.py "$KERN_MSG_TITLE" "$KERN_JOB_ID"
+    - python3.5 splice_pages.py "$KERN_MSG_TITLE" "$KERN_JOB_ID"
     - cp index.html public/index.html
     - git add index.html
     - git commit -m "$KERN_MSG_TITLE"
