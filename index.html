@@ -4,9 +4,10 @@
         <title>ACS Override Kernel Builds</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-        <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js" integrity="sha256-iaqfO5ue0VbSGcEiQn+OeXxnxAMK2+QgHXIDA5bWtGI=" crossorigin="anonymous"></script>
         <style>
             .jumbotron {
                 margin: 25px;
@@ -24,6 +25,91 @@
                 margin-bottom: 25px;
             }
         </style>
+        <script>
+            var gitlab_root = 'https://gitlab.com/Queuecumber/linux-acs-override/-/jobs';
+
+            var construct_kernel = function (kdata) {
+                kdata.make_artifact_uri = function () {
+                    return gitlab_root + '/' + this.build_job_id + '/artifacts';
+                };
+
+                kdata.file_uri = function (filename) {
+                    return this.make_artifact_uri() + '/raw/' + filename;
+                };
+
+                kdata.image_uri = function () {
+                    return this.file_uri('linux-image-' + this.kernel_number + '-acso_' + this.kernel_number + '-acso-1_amd64.deb');
+                };
+
+                kdata.headers_uri = function () {
+                    return this.file_uri('linux-headers-' + this.kernel_number + '-acso_' + this.kernel_number + '-acso-1_amd64.deb');
+                };
+
+                kdata.firmware_uri = function () {
+                    return this.file_uri('linux-firmware-image-' + this.kernel_number + '-acso_' + this.kernel_number + '-acso-1_amd64.deb');
+                };
+
+                kdata.download_uri = function () {
+                    return this.make_artifact_uri() + '/download';
+                };
+
+                kdata.browse_uri = function () {
+                    return this.make_artifact_uri() + '/browse';
+                };
+            };
+
+            $(document).ready(function () {
+                $.getJSON('kernels.json', function(kernel_data) {
+                    console.log(kernel_data);
+
+                    kernel_data.series.forEach(function (s) {
+                        s.kernels.forEach(construct_kernel);
+                    });
+
+                    var template_data = $('#kernels-template').html();
+                    var rendered_template = Mustache.render(template_data, kernel_data);
+                    $('#accordion').html(rendered_template);
+                });
+            });
+        </script>
+        <script type="text/template" id="kernels-template">
+            {{#series}}
+            <div class="card k{{series_collapsed}}">
+                <div class="card-header">
+                    <h2>
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{series_collapsed}}">
+                            {{series_number}} Series
+                        </a>
+                    </h2>
+                </div>
+
+                <div id="collapse{{series_collapsed}}" class="collapse">
+                    <div class="card-block">
+                        {{#kernels}}
+                        <div class="kernel" data-kernel="{{kernel_number}}">
+                            <h3>{{kernel_number}}: {{kernel_type}}</h3>
+                            <ul>
+                                <li>
+                                    <a href="{{image_uri}}">Image</a>
+                                </li>
+                                <li>
+                                    <a href="{{headers_uri}}">Headers</a>
+                                </li>
+                                <li>
+                                    <a href="{{firmware_uri}}">Firmware Image</a>
+                                </li>
+                            </ul>
+                            <div class="btn-group">
+                                <a class="btn btn-secondary" href="{{download_uri}}">Download All</a>
+                                <a class="btn btn-secondary" href="{{browse_uri}}">Browse All</a>
+                            </div>
+                        </div>
+                        {{/kernels}}
+                    </div>
+                </div>
+            </div>
+            {{/series}}
+        </script>
     </head>
     <body>
         <header class="jumbotron">
@@ -45,111 +131,11 @@
                 <a href="https://gitlab.com/Queuecumber/linux-acs-override/pipelines"><img alt="build status" src="https://gitlab.com/Queuecumber/linux-acs-override/badges/master/build.svg" /></a>
             </p>
         </header>
-        <div class="container">
-            <section class="kernel-builds">
-                <div id="accordion">
-                    <div class="card k411">
-                        <div class="card-header">
-                            <h2>
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse411">
-                                    4.11 Series
-                                </a>
-                            </h2>
-                        </div>
-
-                        <div id="collapse411" class="collapse">
-                            <div class="card-block">
-                                <div class="kernel" data-kernel="4.11.6: stable">
-                                    <h3>4.11.6: stable</h3>
-                                    <ul>
-                                        <li>
-                                            <a href="https://gitlab.com/Queuecumber/linux-acs-override/-/jobs/18897089/artifacts/raw/linux-image-4.11.6-acso_4.11.6-acso-1_amd64.deb">Image</a>
-                                        </li>
-                                        <li>
-                                            <a href="https://gitlab.com/Queuecumber/linux-acs-override/-/jobs/18897089/artifacts/raw/linux-headers-4.11.6-acso_4.11.6-acso-1_amd64.deb">Headers</a>
-                                        </li>
-                                        <li>
-                                            <a href="https://gitlab.com/Queuecumber/linux-acs-override/-/jobs/18897089/artifacts/raw/linux-firmware-image-4.11.6-acso_4.11.6-acso-1_amd64.deb">Firmware Image</a>
-                                        </li>
-                                    </ul>
-                                    <div class="btn-group">
-                                        <a class="btn btn-secondary" href="https://gitlab.com/Queuecumber/linux-acs-override/-/jobs/18897089/artifacts/download">Download All</a>
-                                        <a class="btn btn-secondary" href="https://gitlab.com/Queuecumber/linux-acs-override/-/jobs/18897089/artifacts/browse">Browse All</a>
-                                    </div>
-                                </div>
-                                <div class="kernel" data-kernel="4.11.5: stable">
-                                    <h3>4.11.5: stable</h3>
-                                    <ul>
-                                        <li>
-                                            <a href="https://gitlab.com/Queuecumber/linux-acs-override/-/jobs/18657541/artifacts/raw/linux-image-4.11.5-acso_4.11.5-acso-1_amd64.deb">Image</a>
-                                        </li>
-                                        <li>
-                                            <a href="https://gitlab.com/Queuecumber/linux-acs-override/-/jobs/18657541/artifacts/raw/linux-headers-4.11.5-acso_4.11.5-acso-1_amd64.deb">Headers</a>
-                                        </li>
-                                        <li>
-                                            <a href="https://gitlab.com/Queuecumber/linux-acs-override/-/jobs/18657541/artifacts/raw/linux-firmware-image-4.11.5-acso_4.11.5-acso-1_amd64.deb">Firmware Image</a>
-                                        </li>
-                                    </ul>
-                                    <div class="btn-group">
-                                        <a class="btn btn-secondary" href="https://gitlab.com/Queuecumber/linux-acs-override/-/jobs/18657541/artifacts/download">Download All</a>
-                                        <a class="btn btn-secondary" href="https://gitlab.com/Queuecumber/linux-acs-override/-/jobs/18657541/artifacts/browse">Browse All</a>
-                                    </div>
-                                </div>
-                                <div class="kernel" data-kernel="4.11.4: stable">
-                                    <h3>4.11.4: stable</h3>
-                                    <ul>
-                                        <li>
-                                            <a href="https://gitlab.com/Queuecumber/linux-acs-override/-/jobs/18081051/artifacts/raw/linux-image-4.11.4-acso_4.11.4-acso-1_amd64.deb">Image</a>
-                                        </li>
-                                        <li>
-                                            <a href="https://gitlab.com/Queuecumber/linux-acs-override/-/jobs/18081051/artifacts/raw/linux-headers-4.11.4-acso_4.11.4-acso-1_amd64.deb">Headers</a>
-                                        </li>
-                                        <li>
-                                            <a href="https://gitlab.com/Queuecumber/linux-acs-override/-/jobs/18081051/artifacts/raw/linux-firmware-image-4.11.4-acso_4.11.4-acso-1_amd64.deb">Firmware Image</a>
-                                        </li>
-                                    </ul>
-                                    <div class="btn-group">
-                                        <a class="btn btn-secondary" href="https://gitlab.com/Queuecumber/linux-acs-override/-/jobs/18081051/artifacts/download">Download All</a>
-                                        <a class="btn btn-secondary" href="https://gitlab.com/Queuecumber/linux-acs-override/-/jobs/18081051/artifacts/browse">Browse All</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card k410">
-                        <div class="card-header">
-                            <h2>
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse410">
-                                    4.10 Series
-                                </a>
-                            </h2>
-                        </div>
-                        <div id="collapse410" class="collapse">
-                            <div class="card-block">
-                                <div class="kernel" data-kernel="4.10.7: stable">
-                                    <h3>4.10.7: stable</h3>
-                                    <ul>
-                                        <li>
-                                            <a href="https://gitlab.com/Queuecumber/linux-acs-override/-/jobs/13310156/artifacts/raw/linux-image-4.10.7-acso_4.10.7-acso-1_amd64.deb">Image</a>
-                                        </li>
-                                        <li>
-                                            <a href="https://gitlab.com/Queuecumber/linux-acs-override/-/jobs/13310156/artifacts/raw/linux-headers-4.10.7-acso_4.10.7-acso-1_amd64.deb">Headers</a>
-                                        </li>
-                                        <li>
-                                            <a href="https://gitlab.com/Queuecumber/linux-acs-override/-/jobs/13310156/artifacts/raw/linux-firmware-image-4.10.7-acso_4.10.7-acso-1_amd64.deb">Firmware Image</a>
-                                        </li>
-                                    </ul>
-                                    <div class="btn-group">
-                                        <a class="btn btn-secondary" href="https://gitlab.com/Queuecumber/linux-acs-override/-/jobs/13310156/artifacts/download">Download All</a>
-                                        <a class="btn btn-secondary" href="https://gitlab.com/Queuecumber/linux-acs-override/-/jobs/13310156/artifacts/browse">Browse All</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
+        <section class="kernel-builds container">
+            <div id="accordion">
+                <!-- Rendered template goes here -->
+            </div>
+        </section>
         <footer>
             Copyright &copy; 2017 Max Ehrlich
         </footer>
