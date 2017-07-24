@@ -8,7 +8,7 @@ stages:
   - deploy
 
 before_script:
-  - apt-get update -qq && apt-get install -y -qq git python python-pip python3.5 python3-pip
+  - apt-get update -qq && apt-get install -y -qq git python3.5 python3-pip
 
 cache:
     key: "$CI_PIPELINE_ID"
@@ -44,13 +44,12 @@ pages:
     - export KERN_JOB_ID=$(cat kern_job_id)
     - "echo Job ID: $KERN_JOB_ID"
     - git checkout pages
-    - pip install BeautifulSoup
     - python3.5 splice_pages.py "$KERN_MSG_TITLE" "$KERN_JOB_ID"
     - cp index.html public/index.html
-    - git add index.html
-    - git commit -m "$KERN_MSG_TITLE"
+    - cp kernels.json public/kernels.json
+    - git add kernel.json
+    - git commit -m "Add $KERN_MSG_TITLE"
     - git push
-    - mv .public public
   only:
     - triggers
   artifacts:
