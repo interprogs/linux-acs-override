@@ -12,7 +12,7 @@ before_script:
   - mkdir -p ~/.ssh
   - echo "$CI_PUSH_KEY" | tr -d '\r' > ~/.ssh/id_rsa
   - chmod 600 ~/.ssh/id_rsa
-  - ssh-keyscan -H 'Git_Domain' >> ~/.ssh/known_hosts
+  - ssh-keyscan -H 'gitlab.com' >> ~/.ssh/known_hosts
   - git config --global user.email max.ehr@gmail.com
   - git config --global user.name Queuecumber
   - git remote -v
@@ -55,7 +55,7 @@ pages:
     - mkdir public
     - cp index.html public/index.html
     - cp kernels.json public/kernels.json
-    - git add kernel.json
+    - git add kernels.json
     - "git commit -m \"**[CI: $CI_PIPELINE_ID]** Add $KERN_MSG_TITLE\""
     - git push
   only:
