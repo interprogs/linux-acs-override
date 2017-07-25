@@ -56,7 +56,7 @@ pages:
     - cp index.html public/index.html
     - cp kernels.json public/kernels.json
     - git add kernel.json
-    - git commit -m "**[CI: $CI_PIPELINE_ID]** Add $KERN_MSG_TITLE"
+    - "git commit -m \"**[CI: $CI_PIPELINE_ID]** Add $KERN_MSG_TITLE\""
     - git push
   only:
     - triggers
