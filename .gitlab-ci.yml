@@ -9,6 +9,13 @@ stages:
 
 before_script:
   - apt-get update -qq && apt-get install -y -qq git python3.5 python3-pip
+  - mkdir -p ~/.ssh
+  - echo "$CI_PUSH_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+  - chmod 600 ~/.ssh/id_rsa
+  - ssh-keyscan -H 'Git_Domain' >> ~/.ssh/known_hosts
+  - git config --global user.email max.ehr@gmail.com
+  - git config --global user.name Queuecumber
+  - git remote -v
 
 cache:
     key: "$CI_PIPELINE_ID"
@@ -45,10 +52,11 @@ pages:
     - "echo Job ID: $KERN_JOB_ID"
     - git checkout pages
     - python3.5 splice_pages.py "$KERN_MSG_TITLE" "$KERN_JOB_ID"
+    - mkdir public
     - cp index.html public/index.html
     - cp kernels.json public/kernels.json
     - git add kernel.json
-    - git commit -m "Add $KERN_MSG_TITLE"
+    - git commit -m "**[CI: $CI_PIPELINE_ID]** Add $KERN_MSG_TITLE"
     - git push
   only:
     - triggers
