@@ -1,35 +1,46 @@
 {
     "series": [
         {
-            "series_number": "4.11",
-            "series_collapsed": "411",
             "kernels": [
                 {
-                    "kernel_type": "stable",
-                    "kernel_number": "4.11.6",
-                    "build_job_id": "18897089"
-                },
-                {
-                    "kernel_type": "stable",
-                    "kernel_number": "4.11.5",
-                    "build_job_id": "18657541"
-                },
-                {
-                    "kernel_type": "stable",
-                    "kernel_number": "4.11.4",
-                    "build_job_id": "18081051"
-                }
-            ]
-        },
-        {
-            "series_number": "4.10",
-            "kernels": [
-                {
-                    "kernel_type": "stable",
-                    "kernel_number": "4.10.7",
-                    "build_job_id": "13310156"
+                    "build_job_id": "24458947",
+                    "kernel_type": "mainline",
+                    "kernel_number": "4.13.0-rc2"
                 }
             ],
+            "series_number": "4.13",
+            "series_collapsed": "413"
+        },
+        {
+            "kernels": [
+                {
+                    "build_job_id": "18897089",
+                    "kernel_type": "stable",
+                    "kernel_number": "4.11.6"
+                },
+                {
+                    "build_job_id": "18657541",
+                    "kernel_type": "stable",
+                    "kernel_number": "4.11.5"
+                },
+                {
+                    "build_job_id": "18081051",
+                    "kernel_type": "stable",
+                    "kernel_number": "4.11.4"
+                }
+            ],
+            "series_number": "4.11",
+            "series_collapsed": "411"
+        },
+        {
+            "kernels": [
+                {
+                    "build_job_id": "13310156",
+                    "kernel_type": "stable",
+                    "kernel_number": "4.10.7"
+                }
+            ],
+            "series_number": "4.10",
             "series_collapsed": "410"
         }
     ]
