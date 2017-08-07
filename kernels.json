@@ -1,68 +1,73 @@
 {
     "series": [
         {
-            "series_collapsed": "413",
             "kernels": [
                 {
-                    "build_job_id": "25978647",
+                    "kernel_number": "4.13.0-rc4",
+                    "kernel_type": "mainline",
+                    "build_job_id": "28509110"
+                },
+                {
                     "kernel_number": "4.13.0-rc3",
-                    "kernel_type": "mainline"
+                    "kernel_type": "mainline",
+                    "build_job_id": "25978647"
                 },
                 {
-                    "build_job_id": "24458947",
                     "kernel_number": "4.13.0-rc2",
-                    "kernel_type": "mainline"
+                    "kernel_type": "mainline",
+                    "build_job_id": "24458947"
                 }
             ],
-            "series_number": "4.13"
+            "series_number": "4.13",
+            "series_collapsed": "413"
         },
         {
-            "series_collapsed": "412",
             "kernels": [
                 {
-                    "build_job_id": "28490599",
                     "kernel_number": "4.12.5",
-                    "kernel_type": "stable"
+                    "kernel_type": "stable",
+                    "build_job_id": "28490599"
                 },
                 {
-                    "build_job_id": "25097883",
                     "kernel_number": "4.12.4",
-                    "kernel_type": "stable"
+                    "kernel_type": "stable",
+                    "build_job_id": "25097883"
                 }
             ],
-            "series_number": "4.12"
+            "series_number": "4.12",
+            "series_collapsed": "412"
         },
         {
-            "series_collapsed": "411",
             "kernels": [
                 {
-                    "build_job_id": "18897089",
                     "kernel_number": "4.11.6",
-                    "kernel_type": "stable"
+                    "kernel_type": "stable",
+                    "build_job_id": "18897089"
                 },
                 {
-                    "build_job_id": "18657541",
                     "kernel_number": "4.11.5",
-                    "kernel_type": "stable"
+                    "kernel_type": "stable",
+                    "build_job_id": "18657541"
                 },
                 {
-                    "build_job_id": "18081051",
                     "kernel_number": "4.11.4",
-                    "kernel_type": "stable"
+                    "kernel_type": "stable",
+                    "build_job_id": "18081051"
                 }
             ],
-            "series_number": "4.11"
+            "series_number": "4.11",
+            "series_collapsed": "411"
         },
         {
-            "series_collapsed": "410",
             "kernels": [
                 {
-                    "build_job_id": "13310156",
                     "kernel_number": "4.10.7",
-                    "kernel_type": "stable"
+                    "kernel_type": "stable",
+                    "build_job_id": "13310156"
                 }
             ],
-            "series_number": "4.10"
+            "series_number": "4.10",
+            "series_collapsed": "410"
         }
     ]
 }
