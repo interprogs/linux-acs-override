@@ -1,8 +1,6 @@
 {
     "series": [
         {
-            "series_collapsed": "413",
-            "series_number": "4.13",
             "kernels": [
                 {
                     "kernel_number": "4.13.1",
@@ -29,11 +27,11 @@
                     "build_job_id": "24458947",
                     "kernel_type": "mainline"
                 }
-            ]
+            ],
+            "series_collapsed": "413",
+            "series_number": "4.13"
         },
         {
-            "series_collapsed": "412",
-            "series_number": "4.12",
             "kernels": [
                 {
                     "kernel_number": "4.12.7",
@@ -56,15 +54,20 @@
                     "kernel_type": "stable"
                 },
                 {
+                    "kernel_number": "4.12.12",
+                    "build_job_id": "31915109",
+                    "kernel_type": "stable"
+                },
+                {
                     "kernel_number": "4.12.11",
                     "build_job_id": "31620535",
                     "kernel_type": "stable"
                 }
-            ]
+            ],
+            "series_collapsed": "412",
+            "series_number": "4.12"
         },
         {
-            "series_collapsed": "411",
-            "series_number": "4.11",
             "kernels": [
                 {
                     "kernel_number": "4.11.6",
@@ -81,18 +84,20 @@
                     "build_job_id": "18081051",
                     "kernel_type": "stable"
                 }
-            ]
+            ],
+            "series_collapsed": "411",
+            "series_number": "4.11"
         },
         {
-            "series_collapsed": "410",
-            "series_number": "4.10",
             "kernels": [
                 {
                     "kernel_number": "4.10.7",
                     "build_job_id": "13310156",
                     "kernel_type": "stable"
                 }
-            ]
+            ],
+            "series_collapsed": "410",
+            "series_number": "4.10"
         }
     ]
 }
