@@ -3,6 +3,11 @@
         {
             "kernels": [
                 {
+                    "kernel_type": "stable",
+                    "kernel_number": "4.13.2",
+                    "build_job_id": "32589967"
+                },
+                {
                     "build_job_id": "31915111",
                     "kernel_number": "4.13.1",
                     "kernel_type": "stable"
