@@ -10,75 +10,99 @@ kern_urls = {
 
 def find_tag(major, minor, patch, rc):
 
+    def format_tag(major=None, minor=None, patch=None, rc=None):
+        format = 'v'
+
+        if major is not None:
+            format = '{0}{1}'.format(format, major)
+
+            if minor is not None:
+                format = '{0}.{1}'.format(format, minor)
+
+                if patch is not None:
+                    format = '{0}.{1}'.format(format, patch)
+                elif rc is not None:
+                    format = '{0}-{1}'.format(format, rc)
+
+        return '{0}*'.format(format)
+
     def look_for(ver):
-        format_tag = 'v{0}'
-        tag_prop = format_tag.format(ver)
-        tf = run(['git', 'tag', '-l', tag_prop], stdout=PIPE).stdout.decode('utf-8').strip()
+        tf = run(['git', 'tag', '-l', ver], stdout=PIPE).stdout.decode('utf-8').strip()
         return tf
+
+    def match_exact(major=None, minor=None, patch=None, rc=None):
+        target_tag = format_tag(major, minor, patch, rc)
+        tag_found = look_for(target_tag)
+
+        if tag_found != '':
+            return True, tag_found, target_tag
+        else:
+            return False, None, target_tag
+
+    def match_leq(major=None, minor=None):
+        target_tag = format_tag(major)
+        tag_found = look_for(target_tag)
+
+        if tag_found != '':
+            tags = tag_found.splitlines()
+            tags.reverse()
+
+            for tag in tags:
+                if major is not None:
+                    target = minor
+                    query = tag.split('.')[1] if '.' in tag else None
+                else:
+                    target = major
+                    query = tag.split('.')[0] if '.' in tag else tag
+                    query = query[1:]
+
+                if query is not None:
+                    if int(query) <= int(target):
+                        return True, tag, target_tag
+
+        return False, None, target_tag
 
     # step 1: try to find a tag for the specific kernel and patch
     if patch is not None:
-        format_ver = '{0}.{1}.{2}'.format(major, minor, patch)
-        tag_found = look_for(format_ver)
-        if tag_found != '':
-            return tag_found
+        found, tag, target = match_exact(major, minor, patch)
+        if found:
+            print('Found exact match for {0}'.format(target))
+            return tag
         else:
-            print('No matching patch for {0}'.format(format_ver))
+            print('No matching patch for {0}'.format(target))
 
     # step 2: try to find a tag for the kernel maj, min, and rc
     if rc is not None:
-        format_ver = '{0}.{1}-{2}'.format(major, minor, rc)
-        tag_found = look_for(format_ver)
-        if tag_found != '':
-            return tag_found
+        found, tag, target = match_exact(major, minor, rc=rc)
+        if found:
+            print('Found exact match {0} for {1}'.format(tag, target))
+            return tag
         else:
-            print('No matching rc version for {0}'.format(format_ver))
+            print('No matching rc for {0}'.format(target))
 
     # step 3: try to find a tag for the kernel maj and min version
-    format_ver = '{0}.{1}'.format(major, minor)
-    tag_found = look_for(format_ver)
-    if tag_found != '':
-        return tag_found
+    found, tag, target = match_exact(major, minor)
+    if found:
+        print('Found exact match {0} for {1}'.format(tag, target))
+        return tag
     else:
-        print('No matching minor version for {0}'.format(format_ver))
+        print('No matching minor version for {0}'.format(target))
 
     # step 4: try to build from closest tag less than minor version
-    format_ver = '{0}.{1}'.format(major, '*')
-    tag_found = look_for(format_ver)
-    if tag_found != '':
-        tags = tag_found.splitlines()
-        tags.reverse()
-
-        for tag in tags:
-            query_minor = tag.split('.')[1] if '.' in tag else None
-
-            if query_minor is not None:
-                if int(query_minor) <= int(minor):
-                    print('Using tag {0} which is closest lower minor version'.format(tag))
-                    return tag
-                else:
-                    print('Tag {0} is too new'.format(tag))
-
-    print('No closer tag in the {0} series'.format(major))
+    found, tag, target = match_leq(major, minor)
+    if found:
+        print('Using {0} as closest minor version for {1}'.format(tag, target))
+        return tag
+    else:
+        print('No matching minor version for {0}'.format(target))
 
     # step 5: try to build from closest tag less than major version
-    format_ver = '*'
-    tag_found = look_for(format_ver)
-    if tag_found != '':
-        tags = tag_found.splitlines()
-        tags.reverse()
-
-        for tag in tags:
-            query_major = tag.split('.')[0] if '.' in tag else tag
-            query_major = query_major[1:]
-
-            if int(query_major) <= int(major):
-                print('Using tag {0} which is closest lower major version'.format(tag))
-                return tag
-            else:
-                print('Tag {0} is too new'.format(tag))
-
-    print('No closer tag for major version {0}'.format(major))
+    found, tag, target = match_leq(major)
+    if found:
+        print('Using {0} as closest major version for {1}'.format(tag, target))
+        return tag
+    else:
+        print('No lower versions for {0}'.format(target))
 
     # step 6: try to build from the latest tag, if this fails the patches need updating
     rec_tag = run(['git', 'describe', '--abbrev=0'], stdout=PIPE).stdout.decode('utf-8').strip()
@@ -147,7 +171,9 @@ if not dryrun:
     os.chdir('..')
 
 acso_tag = find_tag(kern_maj, kern_min, kern_patch, kern_rc)
-check_call(['git', 'checkout', acso_tag])
+
+if not dryrun:
+    check_call(['git', 'checkout', acso_tag])
 
 # Apply patch
 if not dryrun:
