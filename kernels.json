@@ -1,17 +1,24 @@
 {
     "series": [
         {
+            "series_number": "4.14",
+            "series_collapsed": "414",
             "kernels": [
+                {
+                    "kernel_type": "mainline",
+                    "kernel_number": "4.14.0-rc4",
+                    "build_job_id": "35596399"
+                },
                 {
                     "build_job_id": "33722216",
                     "kernel_number": "4.14.0-rc1",
                     "kernel_type": "mainline"
                 }
-            ],
-            "series_collapsed": "414",
-            "series_number": "4.14"
+            ]
         },
         {
+            "series_collapsed": "413",
+            "series_number": "4.13",
             "kernels": [
                 {
                     "build_job_id": "33298560",
@@ -48,11 +55,11 @@
                     "kernel_number": "4.13.0-rc2",
                     "kernel_type": "mainline"
                 }
-            ],
-            "series_number": "4.13",
-            "series_collapsed": "413"
+            ]
         },
         {
+            "series_collapsed": "412",
+            "series_number": "4.12",
             "kernels": [
                 {
                     "build_job_id": "29133536",
@@ -94,11 +101,11 @@
                     "kernel_number": "4.12.11",
                     "kernel_type": "stable"
                 }
-            ],
-            "series_number": "4.12",
-            "series_collapsed": "412"
+            ]
         },
         {
+            "series_collapsed": "411",
+            "series_number": "4.11",
             "kernels": [
                 {
                     "build_job_id": "18897089",
@@ -115,20 +122,18 @@
                     "kernel_number": "4.11.4",
                     "kernel_type": "stable"
                 }
-            ],
-            "series_number": "4.11",
-            "series_collapsed": "411"
+            ]
         },
         {
+            "series_collapsed": "410",
+            "series_number": "4.10",
             "kernels": [
                 {
                     "build_job_id": "13310156",
                     "kernel_number": "4.10.7",
                     "kernel_type": "stable"
                 }
-            ],
-            "series_number": "4.10",
-            "series_collapsed": "410"
+            ]
         }
     ]
 }
