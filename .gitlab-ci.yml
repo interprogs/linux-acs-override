@@ -45,6 +45,17 @@ kernel:
       - ./*.changes
       - ./*.dsc
 
+ppa:
+  stage: deploy
+  script:
+    - apt-get install -y devscripts gpg
+    - echo "$CI_SIGN_KEY" | gpg2 --import --batch --no-tty --yes
+    - debsign *.changes
+    - dput ppa:queuecumber/acso *.changes
+  only:
+    - triggers
+  allow_failure: true
+
 pages:
   stage: deploy
   script:
