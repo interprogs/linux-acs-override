@@ -1,144 +1,149 @@
 {
     "series": [
         {
-            "series_collapsed": "414",
             "series_number": "4.14",
             "kernels": [
                 {
-                    "kernel_type": "mainline",
                     "build_job_id": "35596399",
-                    "kernel_number": "4.14.0-rc4"
+                    "kernel_number": "4.14.0-rc4",
+                    "kernel_type": "mainline"
                 },
                 {
-                    "kernel_type": "mainline",
+                    "build_job_id": "35796624",
+                    "kernel_number": "4.14.0-rc3",
+                    "kernel_type": "mainline"
+                },
+                {
                     "build_job_id": "33722216",
-                    "kernel_number": "4.14.0-rc1"
+                    "kernel_number": "4.14.0-rc1",
+                    "kernel_type": "mainline"
                 }
-            ]
+            ],
+            "series_collapsed": "414"
         },
         {
-            "series_collapsed": "413",
             "series_number": "4.13",
             "kernels": [
                 {
-                    "kernel_type": "stable",
                     "build_job_id": "35753614",
-                    "kernel_number": "4.13.5"
+                    "kernel_number": "4.13.5",
+                    "kernel_type": "stable"
                 },
                 {
-                    "kernel_type": "stable",
                     "build_job_id": "33298560",
-                    "kernel_number": "4.13.3"
+                    "kernel_number": "4.13.3",
+                    "kernel_type": "stable"
                 },
                 {
-                    "kernel_type": "stable",
                     "build_job_id": "32589967",
-                    "kernel_number": "4.13.2"
+                    "kernel_number": "4.13.2",
+                    "kernel_type": "stable"
                 },
                 {
-                    "kernel_type": "stable",
                     "build_job_id": "31915111",
-                    "kernel_number": "4.13.1"
+                    "kernel_number": "4.13.1",
+                    "kernel_type": "stable"
                 },
                 {
-                    "kernel_type": "mainline",
                     "build_job_id": "29168615",
-                    "kernel_number": "4.13.0-rc5"
+                    "kernel_number": "4.13.0-rc5",
+                    "kernel_type": "mainline"
                 },
                 {
-                    "kernel_type": "mainline",
                     "build_job_id": "28509110",
-                    "kernel_number": "4.13.0-rc4"
+                    "kernel_number": "4.13.0-rc4",
+                    "kernel_type": "mainline"
                 },
                 {
-                    "kernel_type": "mainline",
                     "build_job_id": "25978647",
-                    "kernel_number": "4.13.0-rc3"
+                    "kernel_number": "4.13.0-rc3",
+                    "kernel_type": "mainline"
                 },
                 {
-                    "kernel_type": "mainline",
                     "build_job_id": "24458947",
-                    "kernel_number": "4.13.0-rc2"
+                    "kernel_number": "4.13.0-rc2",
+                    "kernel_type": "mainline"
                 }
-            ]
+            ],
+            "series_collapsed": "413"
         },
         {
-            "series_collapsed": "412",
             "series_number": "4.12",
             "kernels": [
                 {
-                    "kernel_type": "stable",
                     "build_job_id": "29133536",
-                    "kernel_number": "4.12.7"
+                    "kernel_number": "4.12.7",
+                    "kernel_type": "stable"
                 },
                 {
-                    "kernel_type": "stable",
                     "build_job_id": "29065832",
-                    "kernel_number": "4.12.6"
+                    "kernel_number": "4.12.6",
+                    "kernel_type": "stable"
                 },
                 {
-                    "kernel_type": "stable",
                     "build_job_id": "28490599",
-                    "kernel_number": "4.12.5"
+                    "kernel_number": "4.12.5",
+                    "kernel_type": "stable"
                 },
                 {
-                    "kernel_type": "stable",
                     "build_job_id": "25097883",
-                    "kernel_number": "4.12.4"
+                    "kernel_number": "4.12.4",
+                    "kernel_type": "stable"
                 },
                 {
-                    "kernel_type": "stable",
                     "build_job_id": "33298554",
-                    "kernel_number": "4.12.14"
+                    "kernel_number": "4.12.14",
+                    "kernel_type": "stable"
                 },
                 {
-                    "kernel_type": "stable",
                     "build_job_id": "32589963",
-                    "kernel_number": "4.12.13"
+                    "kernel_number": "4.12.13",
+                    "kernel_type": "stable"
                 },
                 {
-                    "kernel_type": "stable",
                     "build_job_id": "31915109",
-                    "kernel_number": "4.12.12"
+                    "kernel_number": "4.12.12",
+                    "kernel_type": "stable"
                 },
                 {
-                    "kernel_type": "stable",
                     "build_job_id": "31620535",
-                    "kernel_number": "4.12.11"
+                    "kernel_number": "4.12.11",
+                    "kernel_type": "stable"
                 }
-            ]
+            ],
+            "series_collapsed": "412"
         },
         {
-            "series_collapsed": "411",
             "series_number": "4.11",
             "kernels": [
                 {
-                    "kernel_type": "stable",
                     "build_job_id": "18897089",
-                    "kernel_number": "4.11.6"
+                    "kernel_number": "4.11.6",
+                    "kernel_type": "stable"
                 },
                 {
-                    "kernel_type": "stable",
                     "build_job_id": "18657541",
-                    "kernel_number": "4.11.5"
+                    "kernel_number": "4.11.5",
+                    "kernel_type": "stable"
                 },
                 {
-                    "kernel_type": "stable",
                     "build_job_id": "18081051",
-                    "kernel_number": "4.11.4"
+                    "kernel_number": "4.11.4",
+                    "kernel_type": "stable"
                 }
-            ]
+            ],
+            "series_collapsed": "411"
         },
         {
-            "series_collapsed": "410",
             "series_number": "4.10",
             "kernels": [
                 {
-                    "kernel_type": "stable",
                     "build_job_id": "13310156",
-                    "kernel_number": "4.10.7"
+                    "kernel_number": "4.10.7",
+                    "kernel_type": "stable"
                 }
-            ]
+            ],
+            "series_collapsed": "410"
         }
     ]
 }
