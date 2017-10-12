@@ -67,7 +67,7 @@ pages:
     - cp index.html public/index.html
     - cp kernels.json public/kernels.json
     - git add kernels.json
-    - "git commit -m \"**[CI: $CI_PIPELINE_ID]** Add $KERN_MSG_TITLE\""
+    - "git commit -m \"[CI: $CI_PIPELINE_ID] Add $KERN_MSG_TITLE\""
     - git remote set-url origin git@gitlab.com:Queuecumber/linux-acs-override.git
     - git push
   only:
