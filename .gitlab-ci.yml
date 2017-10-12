@@ -50,7 +50,7 @@ ppa:
   script:
     - apt-get install -y devscripts gpg
     - echo "$CI_SIGN_KEY" | gpg --import --batch --no-tty --yes
-    - debsign *.changes
+    - debsign -k $DEBSIGN_KEYID *.changes
     - dput ppa:queuecumber/acso *.changes
   only:
     - triggers
