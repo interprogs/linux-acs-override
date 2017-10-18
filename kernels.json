@@ -35,6 +35,11 @@
             "series_number": "4.13",
             "kernels": [
                 {
+                    "kernel_number": "4.13.8",
+                    "kernel_type": "stable",
+                    "build_job_id": "36642772"
+                },
+                {
                     "kernel_number": "4.13.7",
                     "kernel_type": "stable",
                     "build_job_id": "36243981"
