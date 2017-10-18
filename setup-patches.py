@@ -1,6 +1,7 @@
 import sys
 from subprocess import check_call, run, PIPE
 import os
+import shutil
 
 kern_urls = {
     'mainline': 'git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git',
@@ -173,7 +174,9 @@ if not dryrun:
 acso_tag = find_tag(kern_maj, kern_min, kern_patch, kern_rc)
 
 if not dryrun:
+    shutil.copyfile('build.patch', 'build.patch.bak')
     check_call(['git', 'checkout', acso_tag])
+    shutil.copyfile('build.patch.bak', 'build.patch')
 
 # Apply patch
 if not dryrun:
