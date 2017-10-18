@@ -179,6 +179,7 @@ if not dryrun:
 if not dryrun:
     os.chdir('linux')
     check_call(['git', 'apply', '../acso.patch'])
+    check_call(['git', 'apply', '../build.patch'])
 
 print('ready to build')
 

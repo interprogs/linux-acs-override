@@ -34,7 +34,6 @@ kernel:
     - make olddefconfig
     - make clean
     - make -j `getconf _NPROCESSORS_ONLN` deb-pkg LOCALVERSION=-acso
-    - dpkg-genchanges -S > ../*.changes
     - cd ..
     - echo $CI_JOB_ID >> kern_job_id
   only:
