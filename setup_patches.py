@@ -108,60 +108,31 @@ def main(args):
 
     kspec = kern_util.parse_kernel(args.kernel_string)
 
-    if len(args.dryrun) > 2:
+    if args.dryrun:
         print('DRYRUN')
-
-    if kspec['type'] is None:
-        kspec['type'] = 'mainline'
 
     print('Setting up for kernel: {}'.format(kspec))
 
-    acso_tag = select_workspace(kspec)
+    acso_workspace = select_workspace(**kspec)
 
     if not args.dryrun:
+        os.chdir(acso_workspace)
         kern_util.download_kernel_source(kspec)
+        os.chdir('linux')
 
-    kern_vl = kern_version.split('.')  # 4, 10, 1
-    kern_maj = kern_vl[0]
-    kern_min = kern_vl[1]
-    kern_patch = kern_vl[2] if len(kern_vl) > 2 else None
+    kern_tag = 'v{}'.format(kern_util.format_kernel(kspec))
+    print('Checking out kernel tag {}'.format(kern_tag))
 
-    if '-' in kern_min:
-        kern_min, kern_rc = kern_min.split('-')
-    else:
-        kern_rc = None
-
-    print('Major: {0}, Minor: {1}, Patch: {2}, RC: {3}'.format(kern_maj, kern_min, kern_patch, kern_rc))
-
-    if kern_patch is not None:
-        kern_tag = 'v{0}.{1}.{2}'.format(kern_maj, kern_min, kern_patch)
-    elif kern_rc is not None:
-        kern_tag = 'v{0}.{1}-{2}'.format(kern_maj, kern_min, kern_rc)
-    else:
-        kern_tag = 'v{0}.{1}'.format(kern_maj, kern_min)
-
-    # Checkout kernel
-
-
-    if not dryrun:
-        os.chdir(acso_tag)
-    if not dryrun:
+    # Apply patchs
+    if not args.dryrun:
         check_call(['git', 'checkout', kern_tag])
 
-    # Checkout patch
-    if not dryrun:
-        os.chdir('linux')
-
-    if not dryrun:
-        os.chdir('..')
-
-    # Apply patch
-    if not dryrun:
-        os.chdir('linux')
+        print('Patching kernel')
         check_call(['git', 'apply', '../acso.patch'])
         check_call(['git', 'apply', '../build.patch'])
 
     print('ready to build')
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Auto patch the kernel with the correct ACSO and build patches')
