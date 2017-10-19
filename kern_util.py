@@ -1,105 +1,46 @@
+from subprocess import check_call
+
 kern_urls = {
     'mainline': 'git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git',
     'stable': 'git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git'
 }
 
-def find_tag(major, minor, patch, rc):
 
-    def format_tag(major=None, minor=None, patch=None, rc=None):
-        format = ''
+def parse_kernel(kernel_string):
+    kspec = {k: None for k in ['major', 'minor', 'patch', 'rc', 'type']}
 
-        if major is not None:
-            format = '{0}{1}'.format(format, major)
-
-            if minor is not None:
-                format = '{0}.{1}'.format(format, minor)
-
-                if patch is not None:
-                    format = '{0}.{1}'.format(format, patch)
-                elif rc is not None:
-                    format = '{0}-{1}'.format(format, rc)
-
-        return '{0}*'.format(format)
-
-    def look_for(ver):
-        tf = run(['git', 'tag', '-l', ver], stdout=PIPE).stdout.decode('utf-8').strip()
-        return tf
-
-    def match_exact(major=None, minor=None, patch=None, rc=None):
-        target_tag = format_tag(major, minor, patch, rc)
-        tag_found = look_for(target_tag)
-
-        if tag_found != '':
-            return True, tag_found, target_tag
-        else:
-            return False, None, target_tag
-
-    def match_leq(major=None, minor=None):
-        target_tag = format_tag(major)
-        tag_found = look_for(target_tag)
-
-        if tag_found != '':
-            tags = tag_found.splitlines()
-            tags.reverse()
-
-            for tag in tags:
-                if major is not None:
-                    target = minor
-                    query = tag.split('.')[1] if '.' in tag else None
-                else:
-                    target = major
-                    query = tag.split('.')[0] if '.' in tag else tag
-                    query = query[1:]
-
-                if query is not None:
-                    if int(query) <= int(target):
-                        return True, tag, target_tag
-
-        return False, None, target_tag
-
-    # step 1: try to find a tag for the specific kernel and patch
-    if patch is not None:
-        found, tag, target = match_exact(major, minor, patch)
-        if found:
-            print('Found exact match for {0}'.format(target))
-            return tag
-        else:
-            print('No matching patch for {0}'.format(target))
-
-    # step 2: try to find a tag for the kernel maj, min, and rc
-    if rc is not None:
-        found, tag, target = match_exact(major, minor, rc=rc)
-        if found:
-            print('Found exact match {0} for {1}'.format(tag, target))
-            return tag
-        else:
-            print('No matching rc for {0}'.format(target))
-
-    # step 3: try to find a tag for the kernel maj and min version
-    found, tag, target = match_exact(major, minor)
-    if found:
-        print('Found exact match {0} for {1}'.format(tag, target))
-        return tag
+    if kernel_string.count(':') > 0:
+        kversion, kspec['type'] = map(str.strip, kernel_string.split(':'))
     else:
-        print('No matching minor version for {0}'.format(target))
+        kversion = kernel_string
 
-    # step 4: try to build from closest tag less than minor version
-    found, tag, target = match_leq(major, minor)
-    if found:
-        print('Using {0} as closest minor version for {1}'.format(tag, target))
-        return tag
-    else:
-        print('No matching minor version for {0}'.format(target))
+    kversion_parts = kversion.split('.')
+    kspec['major'] = kversion_parts[0]
+    kspec['minor'] = kversion_parts[1]
 
-    # step 5: try to build from closest tag less than major version
-    found, tag, target = match_leq(major)
-    if found:
-        print('Using {0} as closest major version for {1}'.format(tag, target))
-        return tag
-    else:
-        print('No lower versions for {0}'.format(target))
+    if len(kversion_parts) > 2:
+        kspec['patch'] = kversion_parts[2]
 
-    # step 6: try to build from the latest tag, if this fails the patches need updating
-    rec_tag = run(['git', 'describe', '--abbrev=0'], stdout=PIPE).stdout.decode('utf-8').strip()
-    print('Using latest tag on branch: {0}'.format(rec_tag))
-    return rec_tag
+    if '-' in kspec['minor']:
+        kspec['minor'], kspec['rc'] = kspec['minor'].split('-')
+
+    return kspec
+
+
+def format_kernel(kspec):
+    kstring = '{major}.{minor}'
+
+    if kspec['patch'] is not None:
+        kstring += '.{patch}'
+
+    if kspec['rc'] is not None:
+        kstring += '-{rc}'
+
+    if kspec['type'] is not None:
+        kstring += ': {type}'
+
+    return kstring.format(**kspec)
+
+
+def download_kernel_source(kspec):
+    check_call(['git', 'clone', kern_urls[kspec['type']], 'linux'])
