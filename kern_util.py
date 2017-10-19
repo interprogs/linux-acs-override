@@ -34,7 +34,10 @@ def parse_kernel(kernel_string):
 
 
 def format_kernel(kspec):
-    kstring = '{major}.{minor}'
+    kstring = '{major}'
+
+    if kspec['minor'] is not None:
+        kstring += '.{minor}'
 
     if kspec['patch'] is not None:
         kstring += '.{patch}'
