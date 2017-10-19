@@ -20,8 +20,8 @@ def select_workspace(major, minor, patch, rc, **kwargs):
         target_tag = format_tag(kspec)
         tag_found = look_for(target_tag)
 
-        if tag_found != '':
-            return True, tag_found, target_tag
+        if len(tag_found) == 1:
+            return True, tag_found[0], target_tag
         else:
             return False, None, target_tag
 
