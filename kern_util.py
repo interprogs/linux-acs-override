@@ -6,8 +6,13 @@ kern_urls = {
 }
 
 
+def kernel_spec(major=None, minor=None, patch=None, rc=None, type=None):
+    kspec = {k: locals()[k] for k in ['major', 'minor', 'patch', 'rc', 'type']}
+    return kspec
+
+
 def parse_kernel(kernel_string):
-    kspec = {k: None for k in ['major', 'minor', 'patch', 'rc', 'type']}
+    kspec = kernel_spec()
 
     if kernel_string.count(':') > 0:
         kversion, kspec['type'] = map(str.strip, kernel_string.split(':'))
