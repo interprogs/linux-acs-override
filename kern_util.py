@@ -7,7 +7,8 @@ kern_urls = {
 
 
 def kernel_spec(major=None, minor=None, patch=None, rc=None, type=None):
-    kspec = {k: locals()[k] for k in ['major', 'minor', 'patch', 'rc', 'type']}
+    args = locals()
+    kspec = {k: args[k] for k in ['major', 'minor', 'patch', 'rc', 'type']}
     return kspec
 
 
@@ -40,9 +41,6 @@ def format_kernel(kspec):
 
     if kspec['rc'] is not None:
         kstring += '-{rc}'
-
-    if kspec['type'] is not None:
-        kstring += ': {type}'
 
     return kstring.format(**kspec)
 
