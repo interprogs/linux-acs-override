@@ -33,7 +33,7 @@ def kernel_number_from_title(kernel_title):
     kern_type = kernel_title.split(':')[1].strip()
 
     if kern_number.count('.') == 1:
-        if kern_number.count('.') > 0:
+        if kern_number.count('-') > 0:
             kern_maj_min, kern_rc = kern_number.split('-')
         else:
             kern_maj_min = kern_number
