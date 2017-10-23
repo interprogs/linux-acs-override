@@ -1,5 +1,6 @@
 from peewee import *
 from subprocess import check_call
+from playhouse.shortcuts import model_to_dict
 
 kern_urls = {
     'mainline': 'git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git',
@@ -51,15 +52,46 @@ class KernelVersion(Model):
         else:
             kspec.minor = int(kminorpart)
 
-        return kspec, ktype
+        try:
+            kspec = KernelVersion.match(kspec)
+        except KernelVersion.DoesNotExist:
+            pass
+        finally:
+            return kspec, ktype
+
+    @staticmethod
+    def match(version):
+        return KernelVersion.select().where((KernelVersion.major == version.major) &
+                                            (KernelVersion.minor == version.minor) &
+                                            (KernelVersion.patch == version.patch) &
+                                            (KernelVersion.rc == version.rc)).get()
 
     class Meta:
         database = db
 
 
 class KernelSeries(Model):
-    series_number = KernelVersion()
+    series_number = ForeignKeyField(KernelVersion)
     series_number_collapsed = CharField()
+
+    @staticmethod
+    def from_version(version):
+        series_number = KernelVersion(major=version.major, minor=version.minor)
+
+        try:
+            series_number = KernelVersion.match(series_number)
+        except KernelVersion.DoesNotExist:
+            series_number.save()
+
+        series_number_collapsed = '{v.major}{v.minor}'.format(v=series_number)
+        series = KernelSeries(series_number=series_number, series_number_collapsed=series_number_collapsed)
+
+        try:
+            series = KernelSeries.select().where(KernelSeries.series_number == series.series_number).get()
+        except KernelSeries.DoesNotExist:
+            pass
+        finally:
+            return series
 
     class Meta:
         database = db
@@ -68,7 +100,7 @@ class KernelSeries(Model):
 class BuiltKernel(Model):
     version = ForeignKeyField(KernelVersion)
     type = CharField()
-    build_job_id = CharField()
+    build_job_id = CharField(unique=True)
     series = ForeignKeyField(KernelSeries, related_name='kernels')
 
     class Meta:
@@ -106,6 +138,27 @@ def workspace_for(k):
     except Workspace.DoesNotExist:
         return None
 
+
+def built_kernels_dict():
+    all_series = []
+
+    series = KernelSeries.select()
+    for s in series:
+        bk = BuiltKernel.select().where(BuiltKernel.series == s)
+        sd = model_to_dict(s)
+        sd['kernels'] = [model_to_dict(b) for b in bk]
+
+        sd['series_number'] = str(s.series_number)
+        del sd['id']
+
+        for b, bb in zip(sd['kernels'], bk):
+            del b['id']
+            del b['series']
+            b['version'] = str(bb.version)
+
+        all_series.append(sd)
+
+    return all_series
 
 db.connect()
 db.create_tables([KernelVersion, KernelSeries, BuiltKernel, Workspace], safe=True)
