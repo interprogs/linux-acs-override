@@ -93,11 +93,6 @@
                 "type": "mainline",
                 "version": "4.13-rc2",
                 "build_job_id": "24458947"
-            },
-            {
-                "type": "mainline",
-                "version": "4.13.4",
-                "build_job_id": "44"
             }
         ]
     },
