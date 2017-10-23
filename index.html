@@ -45,8 +45,8 @@
                     return this.file_uri('linux-headers-' + this.kernel_number + '-acso_' + this.kernel_number + '-acso-1_amd64.deb');
                 };
 
-                kdata.firmware_uri = function () {
-                    return this.file_uri('linux-firmware-image-' + this.kernel_number + '-acso_' + this.kernel_number + '-acso-1_amd64.deb');
+                kdata.source_uri = function () {
+                    return this.file_uri('linux-' + this.kernel_number + '-acso_' + this.kernel_number + '-acso.orig.tar.gz');
                 };
 
                 kdata.download_uri = function () {
@@ -96,7 +96,7 @@
                                     <a href="{{headers_uri}}">Headers</a>
                                 </li>
                                 <li>
-                                    <a href="{{firmware_uri}}">Firmware Image</a>
+                                    <a href="{{source_uri}}">Source</a>
                                 </li>
                             </ul>
                             <div class="btn-group">
