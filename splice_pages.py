@@ -1,78 +1,34 @@
-import sys
 import json
+import kernel
+import argparse
 
 
-def insert_kernel(series, kernel_number, kernel_type, build_job_id):
-    kernel_definition = {
-        'kernel_number': kernel_number,
-        'kernel_type': kernel_type,
-        'build_job_id': build_job_id
-    }
+def main(args):
+    kernel_version, kernel_type = kernel.KernelVersion.parse(args.kernel_string)
+    kernel_series = kernel.KernelSeries.from_version(kernel_version)
 
-    series['kernels'].append(kernel_definition)
-    series['kernels'].sort(key=lambda k: k['kernel_number'], reverse=True)
+    kernel_version.save()
+    kernel_series.save()
 
-    return kernel_definition
+    built_kernel = kernel.BuiltKernel(version=kernel_version,
+                                      type=kernel_type,
+                                      build_job_id=args.job_id,
+                                      series=kernel_series)
 
+    try:
+        built_kernel.save()
+    except Exception as e:
+        print('WARNING: {}'.format(e))
 
-def insert_series(series, series_number, series_collapsed):
-    series_definition = {
-        'series_number': series_number,
-        'series_collapsed': series_collapsed,
-        'kernels': []
-    }
+    all_kernels = kernel.built_kernels_dict()
 
-    series.append(series_definition)
-    series.sort(key=lambda s: s['series_number'], reverse=True)
-
-    return series_definition
+    with open('kernel.json', 'w') as f:
+        json.dump(all_kernels, f, indent=4)
 
 
-def kernel_number_from_title(kernel_title):
-    kern_number = kernel_title.split(':')[0].strip()
-    kern_type = kernel_title.split(':')[1].strip()
-
-    if kern_number.count('.') == 1:
-        if kern_number.count('-') > 0:
-            kern_maj_min, kern_rc = kern_number.split('-')
-        else:
-            kern_maj_min = kern_number
-            kern_rc = None
-
-        kern_maj_min_patch = '{}.0'.format(kern_maj_min)
-
-        if kern_rc is None:
-            return kern_maj_min_patch, kern_type
-        else:
-            return '{}-{}'.format(kern_maj_min_patch, kern_rc), kern_type
-    else:
-        return kern_number, kern_type
-
-
-def kernel_series_from_number(kernel_number):
-    kernel_parts = kernel_number.split('.')
-    return '{}.{}'.format(kernel_parts[0], kernel_parts[1]), '{}{}'.format(kernel_parts[0], kernel_parts[1])
-
-
-kernel_title = sys.argv[1]
-kernel_number, kernel_type = kernel_number_from_title(kernel_title)
-kernel_series, kernel_series_collapsed = kernel_series_from_number(kernel_number)
-
-job_id = sys.argv[2]
-
-with open('kernels.json') as f:
-    kernels = json.load(f)
-
-inserted = False
-for ks in kernels['series']:
-    if ks['series_number'] == kernel_series:
-        insert_kernel(ks, kernel_number, kernel_type, job_id)
-        inserted = True
-        break
-
-if not inserted:
-    sd = insert_series(kernels['series'], kernel_series, kernel_series_collapsed)
-    insert_kernel(sd, kernel_number, kernel_type, job_id)
-
-with open('kernels.json', 'w') as f:
-    json.dump(kernels, f, indent=4)
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Build "JSON API cache" for ACSO kernel site')
+    parser.add_argument('kernel_string', help='String description, <kernel_number>:[mainline|stable]')
+    parser.add_argument('job_id', help='ID of CI job that built the kernel')
+    args = parser.parse_args()
+    main(args)
