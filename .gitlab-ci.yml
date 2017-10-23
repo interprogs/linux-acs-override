@@ -62,7 +62,7 @@ pages:
     - export KERN_JOB_ID=$(cat kern_job_id)
     - "echo Job ID: $KERN_JOB_ID"
     - git checkout pages
-    - python3.5 splice_pages.py "$KERN_MSG_TITLE" "$KERN_JOB_ID"
+    - python3.5 gen_json_api.py "$KERN_MSG_TITLE" "$KERN_JOB_ID"
     - mkdir public
     - cp index.html public/index.html
     - cp kernel.json public/kernel.json
