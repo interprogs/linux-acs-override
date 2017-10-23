@@ -165,7 +165,7 @@ def built_kernels_dict():
 
         all_series.append(sd)
 
-    return all_series
+    return {'series': all_series}
 
 db.connect()
 db.create_tables([KernelVersion, KernelSeries, BuiltKernel, Workspace], safe=True)
