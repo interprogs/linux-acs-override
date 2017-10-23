@@ -1,6 +1,7 @@
-import json
-import kernel
 import argparse
+import json
+
+import kernel
 
 
 def main(args):

@@ -1,5 +1,6 @@
-import kernel
 import json
+
+import kernel
 
 with open('kernel.json') as f:
     data = json.load(f)

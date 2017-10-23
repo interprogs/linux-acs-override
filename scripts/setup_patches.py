@@ -1,8 +1,8 @@
-from subprocess import check_call
-import os
-import kernel
 import argparse
 import contextlib
+import os
+from subprocess import check_call
+import kernel
 
 
 @contextlib.contextmanager
