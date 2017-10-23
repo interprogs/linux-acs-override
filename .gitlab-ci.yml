@@ -65,7 +65,7 @@ pages:
     - python3.5 splice_pages.py "$KERN_MSG_TITLE" "$KERN_JOB_ID"
     - mkdir public
     - cp index.html public/index.html
-    - cp kernels.json public/kernels.json
+    - cp kernel.json public/kernel.json
     - git add kernels.json
     - "git commit -m \"[CI: $CI_PIPELINE_ID] Add $KERN_MSG_TITLE\""
     - git remote set-url origin git@gitlab.com:Queuecumber/linux-acs-override.git
