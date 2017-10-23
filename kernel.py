@@ -48,10 +48,10 @@ class KernelVersion(Model):
             kpatch = kversion_parts[2]
 
             if '-' in kpatch:
-                _, kspec.rc = map(lambda s: int(s.replace('rc','')), kpatch.split('-'))
+                _, kspec.rc = map(lambda s: int(s.replace('rc', '')), kpatch.split('-'))
         else:
             if '-' in kminorpart:
-                kspec.minor, kspec.rc = map(lambda s: int(s.replace('rc','')), kminorpart.split('-'))
+                kspec.minor, kspec.rc = map(lambda s: int(s.replace('rc', '')), kminorpart.split('-'))
             else:
                 kspec.minor = int(kminorpart)
 
