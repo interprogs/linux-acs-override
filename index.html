@@ -38,15 +38,15 @@
                 };
 
                 kdata.image_uri = function () {
-                    return this.file_uri('linux-image-' + this.kernel_number + '-acso_' + this.kernel_number + '-acso-1_amd64.deb');
+                    return this.file_uri('linux-image-' + this.version + '-acso_' + this.version + '-acso-1_amd64.deb');
                 };
 
                 kdata.headers_uri = function () {
-                    return this.file_uri('linux-headers-' + this.kernel_number + '-acso_' + this.kernel_number + '-acso-1_amd64.deb');
+                    return this.file_uri('linux-headers-' + this.version + '-acso_' + this.version + '-acso-1_amd64.deb');
                 };
 
                 kdata.source_uri = function () {
-                    return this.file_uri('linux-' + this.kernel_number + '-acso_' + this.kernel_number + '-acso.orig.tar.gz');
+                    return this.file_uri('linux-' + this.version + '-acso_' + this.version + '-acso.orig.tar.gz');
                 };
 
                 kdata.download_uri = function () {
@@ -74,19 +74,19 @@
         </script>
         <script type="text/template" id="kernels-template">
             {{#series}}
-            <div class="card k{{series_collapsed}}">
+            <div class="card k{{series_number_collapsed}}">
                 <div class="card-header">
                     <h2>
-                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{series_collapsed}}">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{series_number_collapsed}}">
                             {{series_number}} Series
                         </a>
                     </h2>
                 </div>
 
-                <div id="collapse{{series_collapsed}}" class="collapse">
+                <div id="collapse{{series_number_collapsed}}" class="collapse">
                     <div class="card-block">
                         {{#kernels}}
-                        <div class="kernel" data-kernel="{{kernel_number}}">
+                        <div class="kernel" data-kernel="{{version}}">
                             <h3>{{kernel_number}}: {{kernel_type}}</h3>
                             <ul>
                                 <li>
