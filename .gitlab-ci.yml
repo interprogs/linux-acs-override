@@ -26,15 +26,15 @@ kernel:
   stage: build
   script:
     - apt-get install -y -qq build-essential kernel-package fakeroot libncurses5-dev libssl-dev ccache python3.5
-    - git config --global user.email "max.ehr@gmail.com"
-    - git config --global user.name "Max Ehrlich"
+    - pip3 install peewee
     - python3.5 setup-patches.py "$KERN_MSG_TITLE"
-    - cp .config linux
-    - cd linux
+    - source workspace
+    - cp .config $KERNEL_WORKSPACE/linux
+    - pushd $KERNEL_WORKSPACE/linux
     - make olddefconfig
     - make clean
     - make -j `getconf _NPROCESSORS_ONLN` deb-pkg LOCALVERSION=-acso
-    - cd ..
+    - popd
     - echo $CI_JOB_ID >> kern_job_id
   only:
     - triggers
