@@ -7,44 +7,64 @@ stages:
   - build
   - deploy
 
+# These have to be done before pretty much all jobs
 before_script:
-  - apt-get update -qq && apt-get install -y -qq git python3.5 python3-pip
-  - mkdir -p ~/.ssh
-  - echo "$CI_PUSH_KEY" | tr -d '\r' > ~/.ssh/id_rsa
-  - chmod 600 ~/.ssh/id_rsa
-  - ssh-keyscan -H 'gitlab.com' >> ~/.ssh/known_hosts
-  - git config --global user.email max.ehr@gmail.com
-  - git config --global user.name Queuecumber
-  - git remote -v
+  - apt-get update
+  - apt-get install -y python3.5 python3-pip
+  - pip3 install peewee
 
+# Make sure the updated kernel.db is passed down the pipeline
 cache:
     key: "$CI_PIPELINE_ID"
     paths:
-      - kern_job_id
+      - kernel.db
 
+# Patch and build the kernel
 kernel:
   stage: build
   script:
-    - apt-get install -y -qq build-essential kernel-package fakeroot libncurses5-dev libssl-dev ccache python3.5
-    - pip3 install peewee
+    # Install dependencies
+    - apt-get install -y git build-essential kernel-package fakeroot libncurses5-dev libssl-dev ccache
+
+    # Download kernel source and patch it
     - python3.5 scripts/setup-patches.py "$KERN_MSG_TITLE"
     - source workspace
-    - cp .config $KERNEL_WORKSPACE/linux
+
+    # Build the kernel
+    - cp kernel_config $KERNEL_WORKSPACE/linux
     - pushd $KERNEL_WORKSPACE/linux
     - make olddefconfig
     - make clean
     - make -j `getconf _NPROCESSORS_ONLN` deb-pkg LOCALVERSION=-acso
     - popd
-    - echo $CI_JOB_ID >> kern_job_id
+
+    # Store the build artifacts
+    - mkdir artifacts
+    - cp $KERNEL_WORKSPACE/*.deb artifacts
+    - cp $KERNEL_WORKSPACE/*.tar.gz artifacts
+    - cp $KERNEL_WORKSPACE/*.changes artifacts
+    - cp $KERNEL_WORKSPACE/*.dsc artifacts
+
+    # Log the successful build in git
+    - mkdir -p ~/.ssh
+    - echo "$CI_PUSH_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - ssh-keyscan -H 'gitlab.com' >> ~/.ssh/known_hosts
+    - git config --global user.email max.ehr@gmail.com
+    - git config --global user.name Queuecumber
+    - git remote -v
+    - python3.5 scripts/log_build.py "$KERN_MSG_TITLE" $CI_JOB_ID
+    - git add kernel.db
+    - "git commit -m \"[CI: $CI_PIPELINE_ID] Add $KERN_MSG_TITLE\""
+    - git remote set-url origin git@gitlab.com:Queuecumber/linux-acs-override.git
+    - git push
   only:
     - triggers
   artifacts:
     paths: 
-      - ./*.deb
-      - ./*.tar.gz
-      - ./*.changes
-      - ./*.dsc
+      - artifacts
 
+# Upload the patched source package to the ppa
 ppa:
   stage: deploy
   script:
@@ -56,20 +76,11 @@ ppa:
     - triggers
   allow_failure: true
 
+# Generate a new json file for the homepage
 pages:
   stage: deploy
   script:
-    - export KERN_JOB_ID=$(cat kern_job_id)
-    - "echo Job ID: $KERN_JOB_ID"
-    - git checkout pages
-    - python3.5 scripts/sql_to_json.py "$KERN_MSG_TITLE" "$KERN_JOB_ID"
-    - mkdir public
-    - cp index.html public/index.html
-    - cp kernel.json public/kernel.json
-    - git add kernel.db
-    - "git commit -m \"[CI: $CI_PIPELINE_ID] Add $KERN_MSG_TITLE\""
-    - git remote set-url origin git@gitlab.com:Queuecumber/linux-acs-override.git
-    - git push
+    - python3.5 scripts/sql_to_json.py public/kernel.json
   only:
     - triggers
   artifacts:
