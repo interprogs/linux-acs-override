@@ -1,5 +1,5 @@
 diff --git a/scripts/package/builddeb b/scripts/package/builddeb
-index aad67000e4dd..df6ccd40d992 100755
+index aad67000e4dd..049038f03ecf 100755
 --- a/scripts/package/builddeb
 +++ b/scripts/package/builddeb
 @@ -248,19 +248,19 @@ fi
@@ -56,6 +56,15 @@ index aad67000e4dd..df6ccd40d992 100755
  EOF
  
  if [ "$ARCH" = "um" ]; then
+@@ -413,7 +421,7 @@ build:
+ 	\$(MAKE)
+ 
+ binary-arch:
+-	\$(MAKE) KDEB_SOURCENAME=${sourcename} KDEB_PKGVERSION=${packageversion} bindeb-pkg
++	\$(MAKE) KDEB_SOURCENAME=${sourcename} KDEB_PKGVERSION=${packageversion} LOCALVERSION=$LOCALVERSION bindeb-pkg
+ 
+ clean:
+ 	rm -rf debian/*tmp debian/files
 @@ -428,7 +436,7 @@ EOF
  	dpkg-source -cdebian/control -ldebian/changelog --format="3.0 (custom)" --target-format="3.0 (quilt)" \
  		-b / ../${sourcename}_${version}.orig.tar.gz  ../${sourcename}_${packageversion}.debian.tar.gz
