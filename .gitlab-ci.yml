@@ -53,6 +53,7 @@ kernel:
     - git config --global user.email max.ehr@gmail.com
     - git config --global user.name Queuecumber
     - git remote -v
+    - git checkout $CI_COMMIT_REF_NAME
     - python3.5 scripts/log_build.py "$KERN_MSG_TITLE" $CI_JOB_ID
     - git add kernel.db
     - "git commit -m \"[CI: $CI_PIPELINE_ID] Add $KERN_MSG_TITLE\""
