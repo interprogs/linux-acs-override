@@ -83,7 +83,7 @@ pages:
   script:
     - mkdir public
     - python3.5 scripts/sql_to_json.py public/kernel.json
-    - cp public/index.html public/index.html
+    - cp index.html public/index.html
   only:
     - triggers
   artifacts:
