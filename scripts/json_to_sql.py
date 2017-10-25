@@ -17,4 +17,10 @@ for s in data['series']:
         kn.save()
 
         b = kernel.BuiltKernel(version=kn, type=k['kernel_type'], build_job_id=k['build_job_id'], series=ks)
-        b.save()
+
+        try:
+            b.save()
+            print('S inserted {} from JSON'.format(kn))
+        except Exception as e:
+            print('W {}'.format(e))
+
