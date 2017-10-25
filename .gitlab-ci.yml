@@ -40,10 +40,10 @@ kernel:
 
     # Store the build artifacts
     - mkdir artifacts
-    - cp $KERNEL_WORKSPACE/*.deb artifacts
-    - cp $KERNEL_WORKSPACE/*.tar.gz artifacts
-    - cp $KERNEL_WORKSPACE/*.changes artifacts
-    - cp $KERNEL_WORKSPACE/*.dsc artifacts
+    - cp $KERNEL_WORKSPACE/*.deb .
+    - cp $KERNEL_WORKSPACE/*.tar.gz .
+    - cp $KERNEL_WORKSPACE/*.changes .
+    - cp $KERNEL_WORKSPACE/*.dsc .
 
     # Log the successful build in git
     - mkdir -p ~/.ssh
@@ -63,7 +63,10 @@ kernel:
     - triggers
   artifacts:
     paths: 
-      - artifacts/*
+      - ./*.deb
+      - ./*.tar.gz
+      - ./*.changes
+      - ./*.dsc
 
 # Upload the patched source package to the ppa
 ppa:
