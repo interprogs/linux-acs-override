@@ -6,6 +6,7 @@ variables:
 stages:
   - build
   - deploy
+  - log
 
 # These have to be done before pretty much all jobs
 before_script:
@@ -44,25 +45,10 @@ kernel:
     - cp $KERNEL_WORKSPACE/*.tar.gz .
     - cp $KERNEL_WORKSPACE/*.changes .
     - cp $KERNEL_WORKSPACE/*.dsc .
-
-    # Log the successful build in git
-    - mkdir -p ~/.ssh
-    - echo "$CI_PUSH_KEY" | tr -d '\r' > ~/.ssh/id_rsa
-    - chmod 600 ~/.ssh/id_rsa
-    - ssh-keyscan -H 'gitlab.com' >> ~/.ssh/known_hosts
-    - git config --global user.email max.ehr@gmail.com
-    - git config --global user.name Queuecumber
-    - git remote -v
-    - git checkout $CI_COMMIT_REF_NAME
-    - python3.5 scripts/log_build.py "$KERN_MSG_TITLE" $CI_JOB_ID
-    - git add kernel.db
-    - "git commit -m \"[CI: $CI_PIPELINE_ID] Add $KERN_MSG_TITLE\""
-    - git remote set-url origin git@gitlab.com:Queuecumber/linux-acs-override.git
-    - git push
   only:
     - triggers
   artifacts:
-    paths: 
+    paths:
       - ./*.deb
       - ./*.tar.gz
       - ./*.changes
@@ -92,3 +78,25 @@ pages:
   artifacts:
     paths:
     - public
+
+# Store the updated database file in git
+log:
+  stage: log
+  script:
+    # Log the successful build in git
+    - apt-get install -y git
+    - mkdir -p ~/.ssh
+    - echo "$CI_PUSH_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - ssh-keyscan -H 'gitlab.com' >> ~/.ssh/known_hosts
+    - git config --global user.email max.ehr@gmail.com
+    - git config --global user.name Queuecumber
+    - git remote -v
+    - git checkout $CI_COMMIT_REF_NAME
+    - python3.5 scripts/log_build.py "$KERN_MSG_TITLE" $CI_JOB_ID
+    - git add kernel.db
+    - "git commit -m \"[CI: $CI_PIPELINE_ID] Add $KERN_MSG_TITLE\""
+    - git remote set-url origin git@gitlab.com:Queuecumber/linux-acs-override.git
+    - git push
+  only:
+    - triggers
