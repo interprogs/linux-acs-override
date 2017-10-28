@@ -58,12 +58,45 @@
                 };
             };
 
+            var kernel_sorter = function (kdata1, kdata2) {
+                var key1 = kdata1.link_version;
+                var version_parts_1 = key1.split('.');
+
+                var key2 = kdata2.link_version;
+                var version_parts_2 = key2.split('.');
+
+                var cmp_vstring = function(v1, v2) {
+                    if (v1.length === 1)
+                        v1 = '0' + v1;
+
+                    if (v2.length === 1)
+                        v2 = '0' + v2;
+
+                    if (v1 < v2)
+                        return 1;
+                    else if (v1 > v2)
+                        return -1;
+                    else
+                        return 0;
+                };
+
+                for (var i = 0; i < 3; i++) {
+                    var c = cmp_vstring(version_parts_1[i], version_parts_2[i]);
+
+                    if (c !== 0)
+                        return c;
+                }
+
+                return 0;
+            };
+
             $(document).ready(function () {
                 $.getJSON('kernel.json', function(kernel_data) {
                     console.log(kernel_data);
 
                     kernel_data.series.forEach(function (s) {
                         s.kernels.forEach(construct_kernel);
+                        s.kernels.sort(kernel_sorter);
                     });
 
                     var template_data = $('#kernels-template').html();
