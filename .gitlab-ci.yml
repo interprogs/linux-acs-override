@@ -45,6 +45,9 @@ kernel:
     - cp $KERNEL_WORKSPACE/*.tar.gz .
     - cp $KERNEL_WORKSPACE/*.changes .
     - cp $KERNEL_WORKSPACE/*.dsc .
+
+    # Update the database with the built kernel informtion
+    - python3.5 scripts/log_build.py "$KERN_MSG_TITLE" $CI_JOB_ID
   only:
     - triggers
   artifacts:
@@ -93,7 +96,6 @@ log:
     - git config --global user.name Queuecumber
     - git remote -v
     - git checkout $CI_COMMIT_REF_NAME
-    - python3.5 scripts/log_build.py "$KERN_MSG_TITLE" $CI_JOB_ID
     - git add kernel.db
     - "git commit -m \"[CI: $CI_PIPELINE_ID] Add $KERN_MSG_TITLE\""
     - git remote set-url origin git@gitlab.com:Queuecumber/linux-acs-override.git
