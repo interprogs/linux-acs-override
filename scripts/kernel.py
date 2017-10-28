@@ -162,6 +162,10 @@ def built_kernels_dict():
             del b['id']
             del b['series']
             b['version'] = str(bb.version)
+            b['link_version'] = b['version']
+
+            if 'rc' in b['link_version']:
+                b['link_version'] = b['link_version'].replace('-rc', '.0-rc')
 
         all_series.append(sd)
 

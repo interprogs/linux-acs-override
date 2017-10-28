@@ -38,15 +38,15 @@
                 };
 
                 kdata.image_uri = function () {
-                    return this.file_uri('linux-image-' + this.version + '-acso_' + this.version + '-acso-1_amd64.deb');
+                    return this.file_uri('linux-image-' + this.link_version + '-acso_' + this.link_version + '-acso-1_amd64.deb');
                 };
 
                 kdata.headers_uri = function () {
-                    return this.file_uri('linux-headers-' + this.version + '-acso_' + this.version + '-acso-1_amd64.deb');
+                    return this.file_uri('linux-headers-' + this.link_version + '-acso_' + this.link_version + '-acso-1_amd64.deb');
                 };
 
                 kdata.source_uri = function () {
-                    return this.file_uri('linux-' + this.version + '-acso_' + this.version + '-acso.orig.tar.gz');
+                    return this.file_uri('linux-' + this.link_version + '-acso_' + this.link_version + '-acso.orig.tar.gz');
                 };
 
                 kdata.download_uri = function () {
