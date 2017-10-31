@@ -1,0 +1,8 @@
+{
+  "notices": [
+    {
+      "type": "warning",
+      "message": "Gitlab is currently experiencing a bug in CI pipelines. Kernels are still built correctly but pipeline status information may be incorrect. Follow the issue <a class='alert-link' href='https://gitlab.com/gitlab-org/gitlab-ce/issues/39514'>here</a> for updates."
+    }
+  ]
+}
