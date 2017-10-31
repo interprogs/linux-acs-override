@@ -56,6 +56,10 @@
                 kdata.browse_uri = function () {
                     return this.make_artifact_uri() + '/browse';
                 };
+
+                kdata.patch_uri = function (){
+                    return 'https://gitlab.com/Queuecumber/linux-acs-override/raw/master/' + this.workspace + '/acso.patch';
+                }
             };
 
             var kernel_sorter = function (kdata1, kdata2) {
@@ -135,6 +139,7 @@
                             <div class="btn-group">
                                 <a class="btn btn-secondary" href="{{download_uri}}">Download All</a>
                                 <a class="btn btn-secondary" href="{{browse_uri}}">Browse All</a>
+                                <a class="btn btn-outline-primary" href="{{patch_uri}}">View Patch</a>
                             </div>
                         </div>
                         {{/kernels}}

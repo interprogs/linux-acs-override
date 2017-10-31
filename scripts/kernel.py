@@ -104,19 +104,20 @@ class KernelSeries(Model):
         database = db
 
 
-class BuiltKernel(Model):
+class Workspace(Model):
     version = ForeignKeyField(KernelVersion)
-    type = CharField()
-    build_job_id = CharField(unique=True)
-    series = ForeignKeyField(KernelSeries, related_name='kernels')
+    path = CharField()
 
     class Meta:
         database = db
 
 
-class Workspace(Model):
+class BuiltKernel(Model):
     version = ForeignKeyField(KernelVersion)
-    path = CharField()
+    type = CharField()
+    build_job_id = CharField(unique=True)
+    series = ForeignKeyField(KernelSeries, related_name='kernels')
+    workspace = ForeignKeyField(Workspace)
 
     class Meta:
         database = db
@@ -151,7 +152,7 @@ def built_kernels_dict():
 
     series = KernelSeries.select()
     for s in series:
-        bk = BuiltKernel.select().where(BuiltKernel.series == s)
+        bk = BuiltKernel.select().join(Workspace).where(BuiltKernel.series == s)
         sd = model_to_dict(s)
         sd['kernels'] = [model_to_dict(b) for b in bk]
 
@@ -166,6 +167,8 @@ def built_kernels_dict():
 
             if 'rc' in b['link_version']:
                 b['link_version'] = b['link_version'].replace('-rc', '.0-rc')
+
+            b['workspace'] = b['workspace']['path']
 
         all_series.append(sd)
 
