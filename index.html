@@ -107,7 +107,20 @@
                     var rendered_template = Mustache.render(template_data, kernel_data);
                     $('#accordion').html(rendered_template);
                 });
+
+                $.getJSON('https://www.jasonbase.com/things/AqWa.json', function (notice_data) {
+                    var template_data = $('#notice-template').html();
+                    var rendered_template = Mustache.render(template_data, notice_data);
+                    $('#notices').html(rendered_template);
+                });
             });
+        </script>
+        <script type="text/template" id="notice-template">
+            {{#notices}}
+            <div class="alert alert-{{type}}">
+                {{&message}}
+            </div>
+            {{/notices}}
         </script>
         <script type="text/template" id="kernels-template">
             {{#series}}
@@ -172,10 +185,15 @@
             <p>
                 <a href="https://gitlab.com/Queuecumber/linux-acs-override/pipelines"><img alt="build status" src="https://gitlab.com/Queuecumber/linux-acs-override/badges/master/build.svg" /></a>
             </p>
+            <p>
+                <div id="notices">
+                    <!-- Rendered notice templates go here -->
+                </div>
+            </p>
         </header>
         <section class="kernel-builds container">
             <div id="accordion">
-                <!-- Rendered template goes here -->
+                <!-- Rendered kernel templates go here -->
             </div>
         </section>
         <footer>
