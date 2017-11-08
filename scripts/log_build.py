@@ -14,7 +14,8 @@ def main(args):
     built_kernel = kernel.BuiltKernel(version=kernel_version,
                                       type=kernel_type,
                                       build_job_id=args.job_id,
-                                      series=kernel_series)
+                                      series=kernel_series,
+                                      workspace=kernel.workspace_for(kernel_version))
 
     try:
         built_kernel.save()
