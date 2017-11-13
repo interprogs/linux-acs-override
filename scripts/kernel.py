@@ -165,8 +165,9 @@ def built_kernels_dict():
             b['version'] = str(bb.version)
             b['link_version'] = b['version']
 
-            if 'rc' in b['link_version']:
-                b['link_version'] = b['link_version'].replace('-rc', '.0-rc')
+            if bb.version.patch is None:
+                bb.version.patch = 0
+                b['link_version'] = str(bb.version)
 
             b['workspace'] = b['workspace']['path']
 
