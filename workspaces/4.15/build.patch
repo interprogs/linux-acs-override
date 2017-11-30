@@ -1,0 +1,79 @@
+diff --git a/scripts/package/builddeb b/scripts/package/builddeb
+index b4f0f2b3f8d2..96ef91c544ae 100755
+--- a/scripts/package/builddeb
++++ b/scripts/package/builddeb
+@@ -245,19 +245,19 @@ fi
+ cat <<EOF > debian/changelog
+ $sourcename ($packageversion) $distribution; urgency=low
+ 
+-  * Custom built Linux kernel.
++  * Adds ACSO Patches to the Linux kernel
+ 
+  -- $maintainer  $(date -R)
+ EOF
+ 
+ # Generate copyright file
+ cat <<EOF > debian/copyright
+-This is a packacked upstream version of the Linux kernel.
++This is a packaged upstream version of the Linux kernel.
+ 
+ The sources may be found at most Linux archive sites, including:
+ https://www.kernel.org/pub/linux/kernel
+ 
+-Copyright: 1991 - 2017 Linus Torvalds and others.
++Copyright: 1991 - 2017 Linus Torvalds and others
+ 
+ The git repository for mainline kernel development is at:
+ git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+@@ -268,10 +268,16 @@ git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+ 
+ On Debian GNU/Linux systems, the complete text of the GNU General Public
+ License version 2 can be found in \`/usr/share/common-licenses/GPL-2'.
++
++ACSO Patch
++Copyright: 2017 Max Ehrlich and others
++
++https://gitlab.com/Queuecumber/linux-acs-override.git
++https://queuecumber.gitlab.io/linux-acs-override
++
+ EOF
+ 
+ 
+-build_depends="bc, kmod, cpio "
+ 
+ # Generate a control file
+ cat <<EOF > debian/control
+@@ -279,8 +285,10 @@ Source: $sourcename
+ Section: kernel
+ Priority: optional
+ Maintainer: $maintainer
+-Build-Depends: $build_depends
+-Homepage: http://www.kernel.org/
++Vcs-Git: https://gitlab.com/Queuecumber/linux-acs-override.git
++Build-Depends: debhelper (>= 5), dh-systemd, cpio, kernel-wedge, kmod <!stage1>, makedumpfile [amd64 i386] <!stage1>, libelf-dev <!stage1>, libnewt-dev <!stage1>, libiberty-dev <!stage1>, rsync <!stage1>, libdw-dev <!stage1>, libpci-dev <!stage1>, pkg-config <!stage1>, flex <!stage1>, bison <!stage1>, libunwind8-dev [amd64 arm64 armhf i386 ppc64el] <!stage1>, liblzma-dev <!stage1>, openssl <!stage1>, libssl-dev <!stage1>, libaudit-dev <!stage1>, bc <!stage1>, python-dev <!stage1>, gawk <!stage1>, libudev-dev <!stage1>, autoconf <!stage1>, automake <!stage1>, libtool <!stage1>, uuid-dev <!stage1>, binutils-dev <!stage1>
++Build-Depends-Indep: xmlto <!stage1>, docbook-utils <!stage1>, ghostscript <!stage1>, transfig <!stage1>, bzip2 <!stage1>, sharutils <!stage1>, asciidoc <!stage1>
++Homepage: https://queuecumber.gitlab.io/linux-acs-override/
+ EOF
+ 
+ if [ "$ARCH" = "um" ]; then
+@@ -393,7 +401,7 @@ build:
+ 	\$(MAKE)
+ 
+ binary-arch:
+-	\$(MAKE) KDEB_SOURCENAME=${sourcename} KDEB_PKGVERSION=${packageversion} bindeb-pkg
++	\$(MAKE) KDEB_SOURCENAME=${sourcename} KDEB_PKGVERSION=${packageversion} LOCALVERSION=$LOCALVERSION bindeb-pkg
+ 
+ clean:
+ 	rm -rf debian/*tmp debian/files
+@@ -408,7 +416,7 @@ EOF
+ 	dpkg-source -cdebian/control -ldebian/changelog --format="3.0 (custom)" --target-format="3.0 (quilt)" \
+ 		-b / ../${sourcename}_${version}.orig.tar.gz  ../${sourcename}_${packageversion}.debian.tar.gz
+ 	mv ${sourcename}_${packageversion}*dsc ..
+-	dpkg-genchanges -Vkernel:debarch="${debarch}" > ../${sourcename}_${packageversion}_${debarch}.changes
++	dpkg-genchanges -Vkernel:debarch="${debarch}" -S > ../${sourcename}_${packageversion}_${debarch}.changes
+ else
+ 	dpkg-genchanges -b -Vkernel:debarch="${debarch}" > ../${sourcename}_${packageversion}_${debarch}.changes
+ fi
+-- 
+2.14.1
+
