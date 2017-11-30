@@ -25,13 +25,14 @@ index aad67000e4dd..049038f03ecf 100755
  
  The git repository for mainline kernel development is at:
  git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-@@ -271,10 +271,16 @@ git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+@@ -271,10 +271,17 @@ git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
  
  On Debian GNU/Linux systems, the complete text of the GNU General Public
  License version 2 can be found in \`/usr/share/common-licenses/GPL-2'.
 +
 +ACSO Patch
-+Copyright: 2017 Max Ehrlich and others
++Original - Copyright: 2015 markzz and others (https://aur.archlinux.org/packages/linux-vfio/)
++Updates - Copyright: 2017 Max Ehrlich
 +
 +https://gitlab.com/Queuecumber/linux-acs-override.git
 +https://queuecumber.gitlab.io/linux-acs-override
