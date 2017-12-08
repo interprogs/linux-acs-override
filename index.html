@@ -103,6 +103,15 @@
                 return 0;
             };
 
+            var series_sorter = function (s1, s2) {
+                if (s1.series_number_collapsed < s2.series_number_collapsed)
+                    return 1;
+                else if(s1.series_number_collapsed > s2.series_number_collapsed)
+                    return -1;
+                else
+                    return 0;
+            };
+
             $(document).ready(function () {
                 $.getJSON('kernel.json', function(kernel_data) {
                     console.log(kernel_data);
@@ -111,6 +120,8 @@
                         s.kernels.forEach(construct_kernel);
                         s.kernels.sort(kernel_sorter);
                     });
+
+                    kernel_data.series.sort(series_sorter);
 
                     var template_data = $('#kernels-template').html();
                     var rendered_template = Mustache.render(template_data, kernel_data);
