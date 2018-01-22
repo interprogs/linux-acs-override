@@ -1,4 +1,4 @@
-image: ubuntu:16.10
+image: ubuntu:17.10
 
 variables:
   DOCKER_DRIVER: overlay2
@@ -10,7 +10,7 @@ stages:
 
 # These have to be done before pretty much all jobs
 before_script:
-  - apt-get update || true
+  - apt-get update
   - apt-get install -y python3.5 python3-pip
   - pip3 install peewee
 
