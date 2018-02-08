@@ -1,0 +1,481 @@
+{
+    "series": [
+        {
+            "series_number": "4.14",
+            "series_number_collapsed": "414",
+            "kernels": [
+                {
+                    "version": "4.14-rc5",
+                    "type": "mainline",
+                    "build_job_id": "36328539",
+                    "workspace": "workspaces/4.14",
+                    "link_version": "4.14.0-rc5"
+                },
+                {
+                    "version": "4.14-rc4",
+                    "type": "mainline",
+                    "build_job_id": "35596399",
+                    "workspace": "workspaces/4.14",
+                    "link_version": "4.14.0-rc4"
+                },
+                {
+                    "version": "4.14-rc3",
+                    "type": "mainline",
+                    "build_job_id": "35796624",
+                    "workspace": "workspaces/4.14",
+                    "link_version": "4.14.0-rc3"
+                },
+                {
+                    "version": "4.14-rc2",
+                    "type": "mainline",
+                    "build_job_id": "36052129",
+                    "workspace": "workspaces/4.14",
+                    "link_version": "4.14.0-rc2"
+                },
+                {
+                    "version": "4.14-rc1",
+                    "type": "mainline",
+                    "build_job_id": "33722216",
+                    "workspace": "workspaces/4.14",
+                    "link_version": "4.14.0-rc1"
+                },
+                {
+                    "version": "4.14-rc6",
+                    "type": "mainline",
+                    "build_job_id": "38085392",
+                    "workspace": "workspaces/4.14",
+                    "link_version": "4.14.0-rc6"
+                },
+                {
+                    "version": "4.14-rc7",
+                    "type": "mainline",
+                    "build_job_id": "38150097",
+                    "workspace": "workspaces/4.14",
+                    "link_version": "4.14.0-rc7"
+                },
+                {
+                    "version": "4.14-rc8",
+                    "type": "mainline",
+                    "build_job_id": "39451962",
+                    "workspace": "workspaces/4.14",
+                    "link_version": "4.14.0-rc8"
+                },
+                {
+                    "version": "4.14",
+                    "type": "mainline",
+                    "build_job_id": "40031276",
+                    "workspace": "workspaces/4.14",
+                    "link_version": "4.14.0"
+                },
+                {
+                    "version": "4.14.1",
+                    "type": "stable",
+                    "build_job_id": "41229739",
+                    "workspace": "workspaces/4.14",
+                    "link_version": "4.14.1"
+                },
+                {
+                    "version": "4.14.3",
+                    "type": "stable",
+                    "build_job_id": "42513204",
+                    "workspace": "workspaces/4.14",
+                    "link_version": "4.14.3"
+                },
+                {
+                    "version": "4.14.4",
+                    "type": "stable",
+                    "build_job_id": "43209133",
+                    "workspace": "workspaces/4.14",
+                    "link_version": "4.14.4"
+                },
+                {
+                    "version": "4.14.2",
+                    "type": "stable",
+                    "build_job_id": "43852340",
+                    "workspace": "workspaces/4.14",
+                    "link_version": "4.14.2"
+                },
+                {
+                    "version": "4.14.5",
+                    "type": "stable",
+                    "build_job_id": "43896245",
+                    "workspace": "workspaces/4.14",
+                    "link_version": "4.14.5"
+                },
+                {
+                    "version": "4.14.6",
+                    "type": "stable",
+                    "build_job_id": "44552282",
+                    "workspace": "workspaces/4.14",
+                    "link_version": "4.14.6"
+                },
+                {
+                    "version": "4.14.7",
+                    "type": "stable",
+                    "build_job_id": "44895302",
+                    "workspace": "workspaces/4.14",
+                    "link_version": "4.14.7"
+                },
+                {
+                    "version": "4.14.8",
+                    "type": "stable",
+                    "build_job_id": "45293977",
+                    "workspace": "workspaces/4.14",
+                    "link_version": "4.14.8"
+                },
+                {
+                    "version": "4.14.8",
+                    "type": "stable",
+                    "build_job_id": "45356618",
+                    "workspace": "workspaces/4.14",
+                    "link_version": "4.14.8"
+                },
+                {
+                    "version": "4.14.9",
+                    "type": "stable",
+                    "build_job_id": "45819170",
+                    "workspace": "workspaces/4.14",
+                    "link_version": "4.14.9"
+                }
+            ]
+        },
+        {
+            "series_number": "4.13",
+            "series_number_collapsed": "413",
+            "kernels": [
+                {
+                    "version": "4.13.8",
+                    "type": "stable",
+                    "build_job_id": "36642772",
+                    "workspace": "workspaces/4.10",
+                    "link_version": "4.13.8"
+                },
+                {
+                    "version": "4.13.7",
+                    "type": "stable",
+                    "build_job_id": "36243981",
+                    "workspace": "workspaces/4.10",
+                    "link_version": "4.13.7"
+                },
+                {
+                    "version": "4.13.6",
+                    "type": "stable",
+                    "build_job_id": "35988288",
+                    "workspace": "workspaces/4.10",
+                    "link_version": "4.13.6"
+                },
+                {
+                    "version": "4.13.5",
+                    "type": "stable",
+                    "build_job_id": "35753614",
+                    "workspace": "workspaces/4.10",
+                    "link_version": "4.13.5"
+                },
+                {
+                    "version": "4.13.4",
+                    "type": "stable",
+                    "build_job_id": "36584731",
+                    "workspace": "workspaces/4.10",
+                    "link_version": "4.13.4"
+                },
+                {
+                    "version": "4.13.3",
+                    "type": "stable",
+                    "build_job_id": "33298560",
+                    "workspace": "workspaces/4.10",
+                    "link_version": "4.13.3"
+                },
+                {
+                    "version": "4.13.2",
+                    "type": "stable",
+                    "build_job_id": "32589967",
+                    "workspace": "workspaces/4.10",
+                    "link_version": "4.13.2"
+                },
+                {
+                    "version": "4.13.1",
+                    "type": "stable",
+                    "build_job_id": "31915111",
+                    "workspace": "workspaces/4.10",
+                    "link_version": "4.13.1"
+                },
+                {
+                    "version": "4.13-rc5",
+                    "type": "mainline",
+                    "build_job_id": "29168615",
+                    "workspace": "workspaces/4.10",
+                    "link_version": "4.13.0-rc5"
+                },
+                {
+                    "version": "4.13-rc4",
+                    "type": "mainline",
+                    "build_job_id": "28509110",
+                    "workspace": "workspaces/4.10",
+                    "link_version": "4.13.0-rc4"
+                },
+                {
+                    "version": "4.13-rc3",
+                    "type": "mainline",
+                    "build_job_id": "25978647",
+                    "workspace": "workspaces/4.10",
+                    "link_version": "4.13.0-rc3"
+                },
+                {
+                    "version": "4.13-rc2",
+                    "type": "mainline",
+                    "build_job_id": "24458947",
+                    "workspace": "workspaces/4.10",
+                    "link_version": "4.13.0-rc2"
+                },
+                {
+                    "version": "4.13.9",
+                    "type": "stable",
+                    "build_job_id": "37096285",
+                    "workspace": "workspaces/4.10",
+                    "link_version": "4.13.9"
+                },
+                {
+                    "version": "4.13-rc1",
+                    "type": "mainline",
+                    "build_job_id": "36754449",
+                    "workspace": "workspaces/4.10",
+                    "link_version": "4.13.0-rc1"
+                },
+                {
+                    "version": "4.13",
+                    "type": "mainline",
+                    "build_job_id": "36848865",
+                    "workspace": "workspaces/4.10",
+                    "link_version": "4.13.0"
+                },
+                {
+                    "version": "4.13.10",
+                    "type": "stable",
+                    "build_job_id": "37924257",
+                    "workspace": "workspaces/4.10",
+                    "link_version": "4.13.10"
+                },
+                {
+                    "version": "4.13.11",
+                    "type": "stable",
+                    "build_job_id": "38679807",
+                    "workspace": "workspaces/4.10",
+                    "link_version": "4.13.11"
+                },
+                {
+                    "version": "4.13.12",
+                    "type": "stable",
+                    "build_job_id": "39484622",
+                    "workspace": "workspaces/4.10",
+                    "link_version": "4.13.12"
+                },
+                {
+                    "version": "4.13.13",
+                    "type": "stable",
+                    "build_job_id": "40422879",
+                    "workspace": "workspaces/4.10",
+                    "link_version": "4.13.13"
+                },
+                {
+                    "version": "4.13.14",
+                    "type": "stable",
+                    "build_job_id": "40923499",
+                    "workspace": "workspaces/4.10",
+                    "link_version": "4.13.14"
+                },
+                {
+                    "version": "4.13.15",
+                    "type": "stable",
+                    "build_job_id": "41298206",
+                    "workspace": "workspaces/4.10",
+                    "link_version": "4.13.15"
+                },
+                {
+                    "version": "4.13.16",
+                    "type": "stable",
+                    "build_job_id": "41732746",
+                    "workspace": "workspaces/4.10",
+                    "link_version": "4.13.16"
+                }
+            ]
+        },
+        {
+            "series_number": "4.12",
+            "series_number_collapsed": "412",
+            "kernels": [
+                {
+                    "version": "4.12.7",
+                    "type": "stable",
+                    "build_job_id": "29133536",
+                    "workspace": "workspaces/4.10",
+                    "link_version": "4.12.7"
+                },
+                {
+                    "version": "4.12.6",
+                    "type": "stable",
+                    "build_job_id": "29065832",
+                    "workspace": "workspaces/4.10",
+                    "link_version": "4.12.6"
+                },
+                {
+                    "version": "4.12.5",
+                    "type": "stable",
+                    "build_job_id": "28490599",
+                    "workspace": "workspaces/4.10",
+                    "link_version": "4.12.5"
+                },
+                {
+                    "version": "4.12.4",
+                    "type": "stable",
+                    "build_job_id": "25097883",
+                    "workspace": "workspaces/4.10",
+                    "link_version": "4.12.4"
+                },
+                {
+                    "version": "4.12.14",
+                    "type": "stable",
+                    "build_job_id": "33298554",
+                    "workspace": "workspaces/4.10",
+                    "link_version": "4.12.14"
+                },
+                {
+                    "version": "4.12.13",
+                    "type": "stable",
+                    "build_job_id": "32589963",
+                    "workspace": "workspaces/4.10",
+                    "link_version": "4.12.13"
+                },
+                {
+                    "version": "4.12.12",
+                    "type": "stable",
+                    "build_job_id": "31915109",
+                    "workspace": "workspaces/4.10",
+                    "link_version": "4.12.12"
+                },
+                {
+                    "version": "4.12.11",
+                    "type": "stable",
+                    "build_job_id": "31620535",
+                    "workspace": "workspaces/4.10",
+                    "link_version": "4.12.11"
+                },
+                {
+                    "version": "4.12.8",
+                    "type": "stable",
+                    "build_job_id": "38495314",
+                    "workspace": "workspaces/4.10",
+                    "link_version": "4.12.8"
+                },
+                {
+                    "version": "4.12-rc1",
+                    "type": "mainline",
+                    "build_job_id": "40146381",
+                    "workspace": "workspaces/4.10",
+                    "link_version": "4.12.0-rc1"
+                }
+            ]
+        },
+        {
+            "series_number": "4.11",
+            "series_number_collapsed": "411",
+            "kernels": [
+                {
+                    "version": "4.11.6",
+                    "type": "stable",
+                    "build_job_id": "18897089",
+                    "workspace": "workspaces/4.10",
+                    "link_version": "4.11.6"
+                },
+                {
+                    "version": "4.11.5",
+                    "type": "stable",
+                    "build_job_id": "18657541",
+                    "workspace": "workspaces/4.10",
+                    "link_version": "4.11.5"
+                },
+                {
+                    "version": "4.11.4",
+                    "type": "stable",
+                    "build_job_id": "18081051",
+                    "workspace": "workspaces/4.10",
+                    "link_version": "4.11.4"
+                }
+            ]
+        },
+        {
+            "series_number": "4.10",
+            "series_number_collapsed": "410",
+            "kernels": [
+                {
+                    "version": "4.10.7",
+                    "type": "stable",
+                    "build_job_id": "13310156",
+                    "workspace": "workspaces/4.10",
+                    "link_version": "4.10.7"
+                }
+            ]
+        },
+        {
+            "series_number": "4.15",
+            "series_number_collapsed": "415",
+            "kernels": [
+                {
+                    "version": "4.15-rc1",
+                    "type": "mainline",
+                    "build_job_id": "43791203",
+                    "workspace": "workspaces/4.15",
+                    "link_version": "4.15.0-rc1"
+                },
+                {
+                    "version": "4.15-rc2",
+                    "type": "mainline",
+                    "build_job_id": "43810568",
+                    "workspace": "workspaces/4.15",
+                    "link_version": "4.15.0-rc2"
+                },
+                {
+                    "version": "4.15-rc3",
+                    "type": "mainline",
+                    "build_job_id": "43933919",
+                    "workspace": "workspaces/4.15",
+                    "link_version": "4.15.0-rc3"
+                },
+                {
+                    "version": "4.15-rc4",
+                    "type": "mainline",
+                    "build_job_id": "44927324",
+                    "workspace": "workspaces/4.15",
+                    "link_version": "4.15.0-rc4"
+                },
+                {
+                    "version": "4.15-rc5",
+                    "type": "mainline",
+                    "build_job_id": "45752995",
+                    "workspace": "workspaces/4.15",
+                    "link_version": "4.15.0-rc5"
+                },
+                {
+                    "version": "4.15-rc6",
+                    "type": "mainline",
+                    "build_job_id": "46351720",
+                    "workspace": "workspaces/4.15",
+                    "link_version": "4.15.0-rc6"
+                },
+                {
+                    "version": "4.15-rc8",
+                    "type": "mainline",
+                    "build_job_id": "47915924",
+                    "workspace": "workspaces/4.15",
+                    "link_version": "4.15.0-rc8"
+                },
+                {
+                    "version": "4.15-rc7",
+                    "type": "mainline",
+                    "build_job_id": "48189441",
+                    "workspace": "workspaces/4.15",
+                    "link_version": "4.15.0-rc7"
+                }
+            ]
+        }
+    ]
+}

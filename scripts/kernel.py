@@ -1,20 +1,62 @@
-from peewee import *
+import json
+import uuid
 from subprocess import check_call
-from playhouse.shortcuts import model_to_dict
 
 kern_urls = {
     'mainline': 'git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git',
     'stable': 'git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git'
 }
 
-db = SqliteDatabase('kernel.db')
+
+def get_table(name):
+    return globals()[name]
 
 
-class KernelVersion(Model):
-    major = IntegerField()
-    minor = IntegerField()
-    patch = IntegerField(null=True)
-    rc = IntegerField(null=True)
+class JsonTable:
+    def __init__(self, key=None):
+        self.key = key if key is not None else str(uuid.uuid4())
+
+    def save(self):
+        self.__class__.series[self.key] = self
+        data = {k: d.__dict__ for k, d in self.__class__.series.items()}
+
+        for d in data.values():
+            for k, v in d.items():
+                if issubclass(type(v), JsonTable):
+                    d[k] = {'$key': v.key, '$table': v.__class__.__name__}
+
+        with open(self.__class__.backing, 'w') as f:
+            json.dump(data, f, indent=4)
+
+    @classmethod
+    def get(cls, key):
+        return cls.series[key]
+
+    @classmethod
+    def load(cls):
+        with open(cls.backing) as f:
+            data = json.load(f)
+
+        for d in data.values():
+            for k, v in d.items():
+                if isinstance(v, dict) and '$key' in v and '$table' in v:
+                    fk_class = get_table(v['$table'])
+                    val = fk_class.series[v['$key']]
+                    d[k] = val
+
+        cls.series = {k: cls(**d) for k, d in data.items()}
+
+
+class KernelVersion(JsonTable):
+    backing = 'db/kernel_version.json'
+
+    def __init__(self, major=None, minor=None, patch=None, rc=None, key=None):
+        super().__init__(key)
+
+        self.major = major
+        self.minor = minor
+        self.patch = patch
+        self.rc = rc
 
     def __str__(self):
         kstring = '{major}'
@@ -28,10 +70,10 @@ class KernelVersion(Model):
         if self.rc is not None:
             kstring += '-rc{rc}'
 
-        return kstring.format(**self._data)
+        return kstring.format(**self.__dict__)
 
-    @staticmethod
-    def parse(kernel_string):
+    @classmethod
+    def parse(cls, kernel_string):
         kspec = KernelVersion()
 
         if kernel_string.count(':') > 0:
@@ -61,66 +103,75 @@ class KernelVersion(Model):
 
         try:
             kspec = KernelVersion.match(kspec)
-        except KernelVersion.DoesNotExist:
+        except IndexError:
             pass
         finally:
             return kspec, ktype
 
-    @staticmethod
-    def match(version):
-        return KernelVersion.select().where((KernelVersion.major == version.major) &
-                                            (KernelVersion.minor == version.minor) &
-                                            (KernelVersion.patch == version.patch) &
-                                            (KernelVersion.rc == version.rc)).get()
-
-    class Meta:
-        database = db
+    @classmethod
+    def match(cls, version):
+        return [kv for kv in KernelVersion.series.values() if ((kv.major == version.major) and
+                                                               (kv.minor == version.minor) and
+                                                               (kv.patch == version.patch) and
+                                                               (kv.rc == version.rc))][0]
 
 
-class KernelSeries(Model):
-    series_number = ForeignKeyField(KernelVersion)
-    series_number_collapsed = CharField()
+class KernelSeries(JsonTable):
+    backing = 'db/kernel_series.json'
 
-    @staticmethod
-    def from_version(version):
+    def __init__(self, series_number=None, series_number_collapsed=None, key=None):
+        super().__init__(key)
+
+        self.series_number = series_number
+        self.series_number_collapsed = series_number_collapsed
+
+    @classmethod
+    def from_version(cls, version):
         series_number = KernelVersion(major=version.major, minor=version.minor)
 
         try:
             series_number = KernelVersion.match(series_number)
-        except KernelVersion.DoesNotExist:
+        except IndexError:
             series_number.save()
 
         series_number_collapsed = '{v.major}{v.minor}'.format(v=series_number)
         series = KernelSeries(series_number=series_number, series_number_collapsed=series_number_collapsed)
 
         try:
-            series = KernelSeries.select().where(KernelSeries.series_number == series.series_number).get()
-        except KernelSeries.DoesNotExist:
+            series = [s for s in KernelSeries.series if s.series_number.key == series.series_number.key][0]
+        except IndexError:
             pass
         finally:
             return series
 
-    class Meta:
-        database = db
+
+class Workspace(JsonTable):
+    backing = 'db/workspace.json'
+
+    def __init__(self, path, version, key):
+        super().__init__(key)
+
+        self.path = path
+        self.version = version
 
 
-class Workspace(Model):
-    version = ForeignKeyField(KernelVersion)
-    path = CharField()
+class BuiltKernel(JsonTable):
+    backing = 'db/built_kernel.json'
 
-    class Meta:
-        database = db
+    def __init__(self, type, build_job_id, version, kernel_series, workspace, key):
+        super().__init__(key)
+
+        self.type = type
+        self.build_job_id = build_job_id
+        self.version = version
+        self.kernel_series = kernel_series
+        self.workspace = workspace
 
 
-class BuiltKernel(Model):
-    version = ForeignKeyField(KernelVersion)
-    type = CharField()
-    build_job_id = CharField(unique=True)
-    series = ForeignKeyField(KernelSeries, related_name='kernels')
-    workspace = ForeignKeyField(Workspace)
-
-    class Meta:
-        database = db
+KernelVersion.load()
+KernelSeries.load()
+Workspace.load()
+BuiltKernel.load()
 
 
 def download_kernel_source(type):
@@ -128,39 +179,35 @@ def download_kernel_source(type):
 
 
 def workspace_for(k):
-    condition = ((KernelVersion.major <= k.major) &
-                 (KernelVersion.minor <= k.minor) &
-                 ((KernelVersion.patch <= k.patch) | KernelVersion.patch.is_null() | (k.patch is None)) &
-                 ((KernelVersion.rc <= k.rc) | KernelVersion.rc.is_null() | (k.rc is None)))
+    matches = [w for w in Workspace.series.values() if (
+        (w.version.major <= k.major) and
+        (w.version.minor <= k.minor) and
+        (w.patch <= k.patch) and
+        (w.rc <= k.rc)
+    )]
 
-    query = (Workspace
-             .select(Workspace).join(KernelVersion)
-             .where(condition)
-             .order_by(KernelVersion.major.desc(),
-                       KernelVersion.minor.desc(),
-                       KernelVersion.patch.desc(),
-                       KernelVersion.rc.desc()))
+    matches.sort(key=lambda w: (w.version.major, w.version.minor, w.version.patch, w.version.rc), reverse=True)
 
     try:
-        return query.get()
-    except Workspace.DoesNotExist:
+        return matches[0]
+    except IndexError:
         return None
 
 
 def built_kernels_dict():
     all_series = []
 
-    series = KernelSeries.select()
+    series = KernelSeries.series.items()
     for s in series:
-        bk = BuiltKernel.select().join(Workspace).where(BuiltKernel.series == s)
-        sd = model_to_dict(s)
-        sd['kernels'] = [model_to_dict(b) for b in bk]
+        bk = [b for b in BuiltKernel.series.items() if b.kernel_series == s]
+        sd = s.__dict__
+        sd['kernels'] = [b.__dict__ for b in bk]
 
         sd['series_number'] = str(s.series_number)
-        del sd['id']
+        del sd['key']
 
         for b, bb in zip(sd['kernels'], bk):
-            del b['id']
+            del b['key']
             del b['series']
             b['version'] = str(bb.version)
             b['link_version'] = b['version']
@@ -174,6 +221,3 @@ def built_kernels_dict():
         all_series.append(sd)
 
     return {'series': all_series}
-
-db.connect()
-db.create_tables([KernelVersion, KernelSeries, BuiltKernel, Workspace], safe=True)
