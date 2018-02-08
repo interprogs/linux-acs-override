@@ -1,1 +1,26 @@
-{}
+{
+    "1cae5101-7bc6-424b-8da0-f7cf6ce166e0": {
+        "key": "1cae5101-7bc6-424b-8da0-f7cf6ce166e0",
+        "path": "workspaces/4.14",
+        "version": {
+            "$key": "3adfbdb2-afaa-497e-aadf-d03c9df2b194",
+            "$table": "KernelVersion"
+        }
+    },
+    "cace14d8-3dd7-4bd1-93da-cb576dcc8bd6": {
+        "key": "cace14d8-3dd7-4bd1-93da-cb576dcc8bd6",
+        "path": "workspaces/4.10",
+        "version": {
+            "$key": "aaa90740-ce1c-429f-a23e-ebd69b625c7f",
+            "$table": "KernelVersion"
+        }
+    },
+    "933f4e1c-6e64-455d-911d-29a3f41008ce": {
+        "key": "933f4e1c-6e64-455d-911d-29a3f41008ce",
+        "path": "workspaces/4.15",
+        "version": {
+            "$key": "dd1fc8dd-671d-4933-8460-b15c38d45a46",
+            "$table": "KernelVersion"
+        }
+    }
+}
