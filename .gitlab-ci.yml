@@ -74,7 +74,7 @@ pages:
   stage: deploy
   script:
     - mkdir public
-    - python3 scripts/sql_to_json.py public/kernel.json
+    - python3 scripts/db_to_web.py public/kernel.json
     - cp index.html public/index.html
   only:
     - triggers
