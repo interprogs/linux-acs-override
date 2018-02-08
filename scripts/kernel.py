@@ -148,7 +148,7 @@ class KernelSeries(JsonTable):
 class Workspace(JsonTable):
     backing = 'db/workspace.json'
 
-    def __init__(self, path, version, key):
+    def __init__(self, path, version, key=None):
         super().__init__(key)
 
         self.path = path
@@ -158,7 +158,7 @@ class Workspace(JsonTable):
 class BuiltKernel(JsonTable):
     backing = 'db/built_kernel.json'
 
-    def __init__(self, type, build_job_id, version, kernel_series, workspace, key):
+    def __init__(self, type, build_job_id, version, kernel_series, workspace, key=None):
         super().__init__(key)
 
         self.type = type
@@ -194,30 +194,62 @@ def workspace_for(k):
         return None
 
 
-def built_kernels_dict():
+def db_to_dict():
     all_series = []
 
-    series = KernelSeries.series.items()
+    series = KernelSeries.series.values()
     for s in series:
-        bk = [b for b in BuiltKernel.series.items() if b.kernel_series == s]
-        sd = s.__dict__
-        sd['kernels'] = [b.__dict__ for b in bk]
+        built_kernels = [b for b in BuiltKernel.series.values() if b.kernel_series == s]
+        series_dict = s.__dict__
 
-        sd['series_number'] = str(s.series_number)
-        del sd['key']
+        series_dict['series_number'] = str(s.series_number)
+        del series_dict['key']
 
-        for b, bb in zip(sd['kernels'], bk):
-            del b['key']
-            del b['series']
-            b['version'] = str(bb.version)
-            b['link_version'] = b['version']
+        series_dict['kernels'] = []
 
-            if bb.version.patch is None:
-                bb.version.patch = 0
-                b['link_version'] = str(bb.version)
+        for b in built_kernels:
+            built_kernel_dict = {**b.__dict__}
+            del built_kernel_dict['key']
+            del built_kernel_dict['kernel_series']
 
-            b['workspace'] = b['workspace']['path']
+            built_kernel_dict['version'] = str(b.version)
+            built_kernel_dict['link_version'] = built_kernel_dict['version']
 
-        all_series.append(sd)
+            if b.version.patch is None:
+                b.version.patch = 0
+                built_kernel_dict['link_version'] = str(b.version)
+
+            built_kernel_dict['workspace'] = b.workspace.path
+            series_dict['kernels'].append(built_kernel_dict)
+
+        all_series.append(series_dict)
 
     return {'series': all_series}
+
+
+def dict_to_db(dict):
+    for s in dict['series']:
+        series_version, _ = KernelVersion.parse(s['series_number'])
+        series = KernelSeries.from_version(series_version)
+        series.save()
+
+        for k in s['kernels']:
+            workspace_path = k['workspace']
+            workspace_matches = [w for w in Workspace.series.values() if w.path == workspace_path]
+
+            if len(workspace_matches) == 0:
+                workspace_version_string = workspace_path.split('/')[-1].strip()
+                workspace_version, _ = KernelVersion.parse(workspace_version_string)
+                workspace_version.save()
+
+                workspace = Workspace(workspace_path, workspace_version)
+                workspace.save()
+            else:
+                workspace = workspace_matches[0]
+
+            built_kernel_version_string = k['version']
+            built_kernel_version, _ = KernelVersion.parse(built_kernel_version_string)
+            built_kernel_version.save()
+
+            built_kernel = BuiltKernel(k['type'], k['build_job_id'], built_kernel_version, series, workspace)
+            built_kernel.save()
