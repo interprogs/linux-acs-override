@@ -179,13 +179,7 @@ def download_kernel_source(type):
 
 
 def workspace_for(k):
-    matches = [w for w in Workspace.series.values() if (
-        (w.version.major <= k.major) and
-        (w.version.minor <= k.minor) and
-        (w.patch <= k.patch) and
-        (w.rc <= k.rc)
-    )]
-
+    matches = [w for w in Workspace.series.values() if ((w.version.major <= k.major) and (w.version.minor <= k.minor))]
     matches.sort(key=lambda w: (w.version.major, w.version.minor, w.version.patch, w.version.rc), reverse=True)
 
     try:
