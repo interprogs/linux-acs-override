@@ -46,6 +46,22 @@ kernel:
 
     # Update the database with the built kernel informtion
     - python3 scripts/log_build.py "$KERN_MSG_TITLE" $CI_JOB_ID
+  only:
+    - triggers
+  artifacts:
+    paths:
+      - ./*.deb
+      - ./*.tar.gz
+      - ./*.changes
+      - ./*.dsc
+
+# Generate a new json file for the homepage
+pages:
+  stage: deploy
+  script:
+    - mkdir public
+    - python3 scripts/db_to_web.py public/kernel.json
+    - cp index.html public/index.html
 
     # Log the successful build in git
     - mkdir -p ~/.ssh
@@ -60,34 +76,6 @@ kernel:
     - "git commit -m \"[CI: $CI_PIPELINE_ID] Add $KERN_MSG_TITLE\""
     - git remote set-url origin git@gitlab.com:Queuecumber/linux-acs-override.git
     - git push
-  only:
-    - triggers
-  artifacts:
-    paths:
-      - ./*.deb
-      - ./*.tar.gz
-      - ./*.changes
-      - ./*.dsc
-
-# Upload the patched source package to the ppa
-ppa:
-  stage: deploy
-  script:
-    - apt-get install -y devscripts gpg
-    - echo "$CI_SIGN_KEY" | gpg --import --batch --no-tty --yes
-    - debsign -k $DEBSIGN_KEYID *.changes
-    - dput ppa:queuecumber/acso *.changes
-  only:
-    - triggers
-  allow_failure: true
-
-# Generate a new json file for the homepage
-pages:
-  stage: deploy
-  script:
-    - mkdir public
-    - python3 scripts/db_to_web.py public/kernel.json
-    - cp index.html public/index.html
   only:
     - triggers
   artifacts:
