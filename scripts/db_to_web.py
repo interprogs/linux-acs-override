@@ -5,7 +5,7 @@ import argparse
 
 def main(args):
     print('Dumping built kernel data to {}'.format(args.out))
-    all_kernels = kernel.built_kernels_dict()
+    all_kernels = kernel.db_to_dict()
     with open(args.out, 'w') as f:
         json.dump(all_kernels, f, indent=4)
 
