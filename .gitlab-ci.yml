@@ -16,7 +16,10 @@ before_script:
 cache:
     key: "$CI_PIPELINE_ID"
     paths:
-      - db/
+      - db/built_kernel.json
+      - db/kernel_series.json
+      - db/kernel_version.json
+      - db/workspace.json
 
 # Patch and build the kernel
 kernel:
