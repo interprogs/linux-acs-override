@@ -14,9 +14,9 @@ before_script:
 
 # Make sure the updated db is passed down the pipeline
 cache:
-      key: "$CI_PIPELINE_ID"
-      paths:
-        - db
+  key: "$CI_PIPELINE_ID"
+  paths:
+    - db
 
 # Patch and build the kernel
 kernel:
