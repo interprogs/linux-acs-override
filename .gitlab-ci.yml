@@ -12,17 +12,15 @@ before_script:
   - apt-get update
   - apt-get install -y python3.5 git
 
-# Make sure the updated kernel.db is passed down the pipeline
-cache:
-    key: "$CI_PIPELINE_ID"
-    paths:
-      - db/built_kernel.json
-      - db/kernel_series.json
-      - db/kernel_version.json
-      - db/workspace.json
+# Make sure the updated db is passed down the pipeline
+
 
 # Patch and build the kernel
 kernel:
+  cache:
+      key: "$CI_PIPELINE_ID"
+      paths:
+        - db/*
   stage: build
   script:
     # Install dependencies
@@ -60,8 +58,13 @@ kernel:
 
 # Generate a new json file for the homepage
 pages:
+  cache:
+      key: "$CI_PIPELINE_ID"
+      paths:
+        - db/*
   stage: deploy
   script:
+    # Generate the public site data
     - mkdir public
     - python3 scripts/db_to_web.py public/kernel.json
     - cp index.html public/index.html
