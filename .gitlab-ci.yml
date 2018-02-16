@@ -26,8 +26,8 @@ kernel:
     #- apt-get install -y build-essential kernel-package fakeroot libncurses5-dev libssl-dev ccache libelf-dev bsdmainutils
 
     # Download kernel source and patch it
-    - python3 scripts/setup_patches.py "$KERN_MSG_TITLE"
-    - source workspace
+#    - python3 scripts/setup_patches.py "$KERN_MSG_TITLE"
+#    - source workspace
 
     # Build the kernel
 #    - cp $KERNEL_WORKSPACE/kernel_config $KERNEL_WORKSPACE/linux/.config
@@ -38,10 +38,10 @@ kernel:
 #    - popd
 
     # Store the build artifacts
-    - cp $KERNEL_WORKSPACE/*.deb .
-    - cp $KERNEL_WORKSPACE/*.tar.gz .
-    - cp $KERNEL_WORKSPACE/*.changes .
-    - cp $KERNEL_WORKSPACE/*.dsc .
+#    - cp $KERNEL_WORKSPACE/*.deb .
+#    - cp $KERNEL_WORKSPACE/*.tar.gz .
+#    - cp $KERNEL_WORKSPACE/*.changes .
+#    - cp $KERNEL_WORKSPACE/*.dsc .
 
     # Update the database with the built kernel informtion
     - python3 scripts/log_build.py "$KERN_MSG_TITLE" $CI_JOB_ID
