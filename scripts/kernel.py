@@ -135,14 +135,14 @@ class KernelSeries(JsonTable):
             series_number.save()
 
         series_number_collapsed = '{v.major}{v.minor}'.format(v=series_number)
-        series = KernelSeries(series_number=series_number, series_number_collapsed=series_number_collapsed)
+        series_obj = KernelSeries(series_number=series_number, series_number_collapsed=series_number_collapsed)
 
         try:
-            series = [s for s in KernelSeries.series if s.series_number.key == series.series_number.key][0]
+            series_obj = [s for s in KernelSeries.series.values() if s.series_number.key == series_obj.series_number.key][0]
         except IndexError:
             pass
         finally:
-            return series
+            return series_obj
 
 
 class Workspace(JsonTable):
