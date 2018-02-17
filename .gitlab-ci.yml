@@ -6,6 +6,7 @@ variables:
 stages:
   - build
   - deploy
+  - log
 
 # These have to be done before pretty much all jobs
 before_script:
@@ -37,8 +38,8 @@ kernel:
     - cp $KERNEL_WORKSPACE/*.changes .
     - cp $KERNEL_WORKSPACE/*.dsc .
 
-    # Update the database with the built kernel informtion
-    - python3 scripts/log_build.py "$KERN_MSG_TITLE" $CI_JOB_ID
+    # Save the job ID for later
+    - echo $CI_JOB_IDs > BUILD_JOB_ID
   only:
     - triggers
   artifacts:
@@ -47,32 +48,45 @@ kernel:
       - ./*.tar.gz
       - ./*.changes
       - ./*.dsc
-      - db/
+      - BUILD_JOB_ID
 
-# Generate a new json file for the homepage
+# Generate a new json "api" for the homepage
 pages:
   stage: deploy
   script:
-    # Generate the public site data
     - mkdir public
     - python3 scripts/db_to_web.py public/kernel.json
     - cp index.html public/index.html
+  only:
+    - triggers
+  artifacts:
+    paths:
+      - public
 
-    # Log the successful build in git
+# Log the build in git
+log:
+  stage: log
+  script:
+    # Update the database with the built kernel informtion
+    - BUILD_JOB_ID=$(cat BUILD_JOB_ID)
+    - python3 scripts/log_build.py "$KERN_MSG_TITLE" $BUILD_JOB_ID
+
+    # Store ssh push credentials
     - mkdir -p ~/.ssh
     - echo "$CI_PUSH_KEY" | tr -d '\r' > ~/.ssh/id_rsa
     - chmod 600 ~/.ssh/id_rsa
     - ssh-keyscan -H 'gitlab.com' >> ~/.ssh/known_hosts
+
+    # Configure git
     - git config --global user.email max.ehr@gmail.com
     - git config --global user.name Queuecumber
     - git remote -v
     - git checkout $CI_COMMIT_REF_NAME
+
+    # Commit the new database and store it on the server
     - git add db/*
     - "git commit -m \"[CI: $CI_PIPELINE_ID] Add $KERN_MSG_TITLE\""
     - git remote set-url origin git@gitlab.com:Queuecumber/linux-acs-override.git
     - git push
   only:
     - triggers
-  artifacts:
-    paths:
-    - public
