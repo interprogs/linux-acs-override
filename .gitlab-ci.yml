@@ -12,12 +12,6 @@ before_script:
   - apt-get update
   - apt-get install -y python3.5 git
 
-# Make sure the updated db is passed down the pipeline
-cache:
-  key: "${CI_PIPELINE_ID}"
-  paths:
-  - db
-
 # Patch and build the kernel
 kernel:
   stage: build
@@ -53,6 +47,7 @@ kernel:
       - ./*.tar.gz
       - ./*.changes
       - ./*.dsc
+      - db/
 
 # Generate a new json file for the homepage
 pages:
