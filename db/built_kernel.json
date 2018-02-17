@@ -1079,7 +1079,7 @@
             "$table": "KernelVersion"
         },
         "kernel_series": {
-            "$key": "0b743627-b287-4ec4-b547-57c486e1e7de",
+            "$key": "2702ce65-55fc-4a65-819d-b1e892732ebd",
             "$table": "KernelSeries"
         },
         "workspace": {
@@ -1096,7 +1096,7 @@
             "$table": "KernelVersion"
         },
         "kernel_series": {
-            "$key": "247f049b-272d-4620-be47-0c02a6f7bd96",
+            "$key": "2702ce65-55fc-4a65-819d-b1e892732ebd",
             "$table": "KernelSeries"
         },
         "workspace": {
@@ -1113,7 +1113,7 @@
             "$table": "KernelVersion"
         },
         "kernel_series": {
-            "$key": "6b823c7d-6f3d-4b8c-842b-9cf8a3ac5ffb",
+            "$key": "2702ce65-55fc-4a65-819d-b1e892732ebd",
             "$table": "KernelSeries"
         },
         "workspace": {
