@@ -467,12 +467,5 @@
         "minor": 15,
         "patch": 3,
         "rc": null
-    },
-    "ad50cac8-5715-45c4-b1ba-a3f56202333b": {
-        "key": "ad50cac8-5715-45c4-b1ba-a3f56202333b",
-        "major": 4,
-        "minor": 15,
-        "patch": 2,
-        "rc": null
     }
 }
