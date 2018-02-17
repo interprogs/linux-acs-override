@@ -68,7 +68,7 @@ index a4d33619a7bb..21f8f347ca4e 100644
 +			acs_on_ids[max_acs_id].vendor = val;
 +
 +			p += strcspn(p, ":");
-+			if (*p != ';') {
++			if (*p != ':') {
 +				pr_warn("PCIe ACS invalid ID\n");
 +				goto next;
 +			}
