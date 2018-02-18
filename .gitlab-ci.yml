@@ -54,6 +54,11 @@ kernel:
 pages:
   stage: deploy
   script:
+    # Update the database with the built kernel informtion
+    - BUILD_JOB_ID=$(cat BUILD_JOB_ID)
+    - python3 scripts/log_build.py "$KERN_MSG_TITLE" $BUILD_JOB_ID
+
+    # Generate the new API
     - mkdir public
     - python3 scripts/db_to_web.py public/kernel.json
     - cp index.html public/index.html
