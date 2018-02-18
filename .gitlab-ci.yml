@@ -39,7 +39,7 @@ kernel:
     - cp $KERNEL_WORKSPACE/*.dsc .
 
     # Save the job ID for later
-    - echo $CI_JOB_IDs > BUILD_JOB_ID
+    - echo $CI_JOB_ID > BUILD_JOB_ID
   only:
     - triggers
   artifacts:
