@@ -27,6 +27,7 @@ kernel:
     # Build the kernel
     - cp $KERNEL_WORKSPACE/kernel_config $KERNEL_WORKSPACE/linux/.config
     - pushd $KERNEL_WORKSPACE/linux
+    - rm -rf .git
     - make olddefconfig
     - make clean
     - make -j `getconf _NPROCESSORS_ONLN` deb-pkg LOCALVERSION=-acso
