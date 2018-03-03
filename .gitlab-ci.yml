@@ -5,7 +5,6 @@ variables:
 
 stages:
   - build
-  - deploy
   - log
 
 # These have to be done before pretty much all jobs
@@ -50,24 +49,6 @@ kernel:
       - ./*.changes
       - ./*.dsc
       - BUILD_JOB_ID
-
-# Generate a new json "api" for the homepage
-pages:
-  stage: deploy
-  script:
-    # Update the database with the built kernel informtion
-    - BUILD_JOB_ID=$(cat BUILD_JOB_ID)
-    - python3 scripts/log_build.py "$KERN_MSG_TITLE" $BUILD_JOB_ID
-
-    # Generate the new API
-    - mkdir public
-    - python3 scripts/db_to_web.py public/kernel.json
-    - cp index.html public/index.html
-  only:
-    - triggers
-  artifacts:
-    paths:
-      - public
 
 # Log the build in git
 log:
