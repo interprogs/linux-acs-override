@@ -75,5 +75,8 @@ log:
     - "git commit -m \"[CI: $CI_PIPELINE_ID] Add $KERN_MSG_TITLE\""
     - git remote set-url origin git@gitlab.com:Queuecumber/linux-acs-override.git
     - git push
+
+    # Trigger pages to rebuild
+    - curl --request POST --form "token=$CI_JOB_TOKEN" https://gitlab.com/api/v4/projects/2887717/ref/pages/trigger/pipeline
   only:
     - triggers
