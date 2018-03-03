@@ -16,6 +16,8 @@ pages:
   stage: deploy
   script:
     # Merge CI changes from master branch
+    - git config --global user.email max.ehr@gmail.com
+    - git config --global user.name Queuecumber
     - git merge master
 
     # Generate the new API
