@@ -54,6 +54,9 @@ kernel:
 log:
   stage: log
   script:
+    # Install curl to trigger the pages job
+    - apt-get install -y curl
+
     # Update the database with the built kernel informtion
     - BUILD_JOB_ID=$(cat BUILD_JOB_ID)
     - python3 scripts/log_build.py "$KERN_MSG_TITLE" $BUILD_JOB_ID
