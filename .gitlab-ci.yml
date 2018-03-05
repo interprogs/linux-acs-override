@@ -24,8 +24,6 @@ pages:
     - mkdir public
     - python3 scripts/db_to_web.py public/kernel.json
     - cp index.html public/index.html
-  only:
-    - triggers
   artifacts:
     paths:
       - public
