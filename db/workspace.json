@@ -22,5 +22,13 @@
             "$key": "dd1fc8dd-671d-4933-8460-b15c38d45a46",
             "$table": "KernelVersion"
         }
+    },
+    "58915a70-3826-4584-80ce-d1f40dbfe26d": {
+        "key": "58915a70-3826-4584-80ce-d1f40dbfe26d",
+        "path": "workspaces/4.17",
+        "version": {
+            "$key": "ea7dcbfc-985c-4f09-af35-ba2d748d3518",
+            "$table": "KernelVersion"
+        }
     }
 }
