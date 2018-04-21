@@ -17,6 +17,7 @@ kernel:
   stage: build
   script:
     # Install dependencies
+    - export DEBIAN_FRONTEND=noninteractive
     - apt-get install -y build-essential kernel-package fakeroot libncurses5-dev libssl-dev ccache libelf-dev bsdmainutils bison flex dh-systemd kernel-wedge makedumpfile libnewt-dev libiberty-dev rsync libdw-dev libpci-dev pkg-config libunwind8-dev liblzma-dev libaudit-dev python-dev gawk libudev-dev autoconf automake libtool uuid-dev binutils-dev transfig sharutils asciidoc debhelper
 
     # Download kernel source and patch it
