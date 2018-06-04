@@ -1902,5 +1902,22 @@
             "$key": "1cae5101-7bc6-424b-8da0-f7cf6ce166e0",
             "$table": "Workspace"
         }
+    },
+    "b6e21739-17b7-4d03-8e6c-0d1c5ce276b1": {
+        "key": "b6e21739-17b7-4d03-8e6c-0d1c5ce276b1",
+        "type": "mainline",
+        "build_job_id": "72099121",
+        "version": {
+            "$key": "ea7dcbfc-985c-4f09-af35-ba2d748d3518",
+            "$table": "KernelVersion"
+        },
+        "kernel_series": {
+            "$key": "d1d0f36d-1008-4a75-8b73-d6941cfa63a4",
+            "$table": "KernelSeries"
+        },
+        "workspace": {
+            "$key": "58915a70-3826-4584-80ce-d1f40dbfe26d",
+            "$table": "Workspace"
+        }
     }
 }
