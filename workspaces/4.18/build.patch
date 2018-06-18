@@ -1,0 +1,72 @@
+diff --git a/scripts/package/Makefile b/scripts/package/Makefile
+index 73503ebce632..c480607747c4 100644
+--- a/scripts/package/Makefile
++++ b/scripts/package/Makefile
+@@ -73,7 +73,7 @@ deb-pkg: FORCE
+ 	$(call cmd,src_tar,$(KDEB_SOURCENAME))
+ 	origversion=$$(dpkg-parsechangelog -SVersion |sed 's/-[^-]*$$//');\
+ 		mv $(KDEB_SOURCENAME).tar.gz ../$(KDEB_SOURCENAME)_$${origversion}.orig.tar.gz
+-	+dpkg-buildpackage -r$(KBUILD_PKG_ROOTCMD) -a$$(cat debian/arch) -i.git -us -uc
++	+dpkg-buildpackage -r$(KBUILD_PKG_ROOTCMD) -a$$(cat debian/arch) -i.git -us -uc --changes-option=-S
+
+ bindeb-pkg: FORCE
+ 	$(CONFIG_SHELL) $(srctree)/scripts/package/mkdebian
+diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
+index 6adb3a16ba3b..e741056fc727 100755
+--- a/scripts/package/mkdebian
++++ b/scripts/package/mkdebian
+@@ -108,13 +108,14 @@ cat <<EOF > debian/changelog
+ $sourcename ($packageversion) $distribution; urgency=low
+
+   * Custom built Linux kernel.
++  * Adds ACSO Patches to the Linux kernel
+
+  -- $maintainer  $(date -R)
+ EOF
+
+ # Generate copyright file
+ cat <<EOF > debian/copyright
+-This is a packacked upstream version of the Linux kernel.
++This is a packaged upstream version of the Linux kernel.
+
+ The sources may be found at most Linux archive sites, including:
+ https://www.kernel.org/pub/linux/kernel
+@@ -129,7 +130,15 @@ git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+     the Free Software Foundation; version 2 dated June, 1991.
+
+ On Debian GNU/Linux systems, the complete text of the GNU General Public
+-License version 2 can be found in \`/usr/share/common-licenses/GPL-2'.
++License version 2 can be found in '/usr/share/common-licenses/GPL-2'.
++
++ACSO Patch
++Original - Copyright: 2015 markzz and others (https://aur.archlinux.org/packages/linux-vfio/)
++Updates - Copyright: 2017-2018 Max Ehrlich
++
++https://gitlab.com/Queuecumber/linux-acs-override.git
++https://queuecumber.gitlab.io/linux-acs-override
++
+ EOF
+
+ # Generate a control file
+@@ -138,8 +147,9 @@ Source: $sourcename
+ Section: kernel
+ Priority: optional
+ Maintainer: $maintainer
+-Build-Depends: bc, kmod, cpio
+-Homepage: http://www.kernel.org/
++Build-Depends: debhelper (>= 5), dh-systemd, cpio, kernel-wedge, kmod <!stage1>, makedumpfile [amd64 i386] <!stage1>, libelf-dev <!stage1>, libnewt-dev <!stage1>, libiberty-dev <!stage1>, rsync <!stage1>, libdw-dev <!stage1>, libpci-dev <!stage1>, pkg-config <!stage1>, flex <!stage1>, bison <!stage1>, libunwind8-dev [amd64 arm64 armhf i386 ppc64el] <!stage1>, liblzma-dev <!stage1>, openssl <!stage1>, libssl-dev <!stage1>, libaudit-dev <!stage1>, bc <!stage1>, python-dev <!stage1>, gawk <!stage1>, libudev-dev <!stage1>, autoconf <!stage1>, automake <!stage1>, libtool <!stage1>, uuid-dev <!stage1>, binutils-dev <!stage1>
++Build-Depends-Indep: xmlto <!stage1>, docbook-utils <!stage1>, ghostscript <!stage1>, transfig <!stage1>, bzip2 <!stage1>, sharutils <!stage1>, asciidoc <!stage1>
++Homepage: https://queuecumber.gitlab.io/linux-acs-override/
+
+ Package: $packagename
+ Architecture: $debarch
+@@ -177,7 +187,7 @@ build:
+ 	\$(MAKE) KERNELRELEASE=${version} ARCH=${ARCH} KBUILD_SRC=
+
+ binary-arch:
+-	\$(MAKE) KERNELRELEASE=${version} ARCH=${ARCH} KBUILD_SRC= intdeb-pkg
++	\$(MAKE) KERNELRELEASE=${version} ARCH=${ARCH} KBUILD_SRC= LOCALVERSION=$LOCALVERSION intdeb-pkg
+
+ clean:
+ 	rm -rf debian/*tmp debian/files
+
