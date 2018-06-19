@@ -1,4 +1,4 @@
-image: ubuntu:17.10
+image: ubuntu:18.04
 
 variables:
   DOCKER_DRIVER: overlay2
@@ -9,21 +9,24 @@ stages:
 # These have to be done before pretty much all jobs
 before_script:
   - apt-get update
-  - apt-get install -y python3.5 git
+  - apt-get install -y python3.6 git
 
 # Generate a new json "api" for the homepage
 pages:
   stage: deploy
   script:
+    # Copy static site data to public directory
+    - mkdir public
+    - cp notices.json public/notices.json
+    - cp index.html public/index.html
+
     # Merge CI changes from master branch
     - git config --global user.email max.ehr@gmail.com
     - git config --global user.name Queuecumber
     - git checkout master
 
     # Generate the new API
-    - mkdir public
-    - python3 scripts/db_to_web.py public/kernel.json
-    - cp index.html public/index.html
+    - python3.6 scripts/db_to_web.py public/kernel.json
   artifacts:
     paths:
       - public

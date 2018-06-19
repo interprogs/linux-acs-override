@@ -128,7 +128,7 @@
                     $('#accordion').html(rendered_template);
                 });
 
-                $.getJSON('https://www.jasonbase.com/things/AqWa.json', function (notice_data) {
+                $.getJSON('notices.json', function (notice_data) {
                     var converter = new showdown.Converter();
                     notice_data.notices.forEach(function (n) {
                         n.message_rendered = converter.makeHtml(n.message);
