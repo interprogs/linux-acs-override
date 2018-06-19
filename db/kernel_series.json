@@ -62,5 +62,13 @@
             "$table": "KernelVersion"
         },
         "series_number_collapsed": "417"
+    },
+    "64bb0870-32ce-4051-ba4c-8d83b53bee00": {
+        "key": "64bb0870-32ce-4051-ba4c-8d83b53bee00",
+        "series_number": {
+            "$key": "043cb937-8102-47cf-b6d3-1aa037427453",
+            "$table": "KernelVersion"
+        },
+        "series_number_collapsed": "418"
     }
 }
