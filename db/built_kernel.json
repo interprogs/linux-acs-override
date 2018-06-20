@@ -2021,5 +2021,22 @@
             "$key": "3df99645-d619-4f9b-ad54-8de2bed6ee7e",
             "$table": "Workspace"
         }
+    },
+    "f0499e66-49ac-4760-a141-a181140f813e": {
+        "key": "f0499e66-49ac-4760-a141-a181140f813e",
+        "type": "stable",
+        "build_job_id": "76330443",
+        "version": {
+            "$key": "d084c582-87b3-4c45-be70-967ff0f3ee38",
+            "$table": "KernelVersion"
+        },
+        "kernel_series": {
+            "$key": "66bd5f7d-fe75-4e56-b582-074435bda7e7",
+            "$table": "KernelSeries"
+        },
+        "workspace": {
+            "$key": "933f4e1c-6e64-455d-911d-29a3f41008ce",
+            "$table": "Workspace"
+        }
     }
 }
