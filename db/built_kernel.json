@@ -2225,5 +2225,22 @@
             "$key": "58915a70-3826-4584-80ce-d1f40dbfe26d",
             "$table": "Workspace"
         }
+    },
+    "c84334b2-bcce-4b4c-b60e-6843eca5bdff": {
+        "key": "c84334b2-bcce-4b4c-b60e-6843eca5bdff",
+        "type": "mainline",
+        "build_job_id": "83543514",
+        "version": {
+            "$key": "6c3747c8-bf6f-40fe-9333-8ecac6a607c2",
+            "$table": "KernelVersion"
+        },
+        "kernel_series": {
+            "$key": "64bb0870-32ce-4051-ba4c-8d83b53bee00",
+            "$table": "KernelSeries"
+        },
+        "workspace": {
+            "$key": "3df99645-d619-4f9b-ad54-8de2bed6ee7e",
+            "$table": "Workspace"
+        }
     }
 }
