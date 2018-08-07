@@ -1,0 +1,4 @@
+drivers/isdn/hardware/eicon/idifunc.c: In function ‘connect_didd’:
+drivers/isdn/hardware/eicon/idifunc.c:223:1: warning: the frame size of 1152 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+ }
+ ^

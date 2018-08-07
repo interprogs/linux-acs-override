@@ -1,0 +1,4 @@
+drivers/isdn/hardware/eicon/message.c: In function ‘sig_ind’:
+drivers/isdn/hardware/eicon/message.c:5985:1: warning: the frame size of 1104 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+ }
+ ^
