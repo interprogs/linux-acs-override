@@ -8,6 +8,8 @@ def main(args):
     kernel_version, kernel_type = kernel.KernelVersion.parse(args.kernel_string)
     kernel_series = kernel.KernelSeries.from_version(kernel_version)
 
+    kernel_version.monolithic = False
+
     kernel_version.save()
     kernel_series.save()
 
@@ -15,7 +17,8 @@ def main(args):
                                       type=kernel_type,
                                       build_job_id=args.job_id,
                                       kernel_series=kernel_series,
-                                      workspace=kernel.workspace_for(kernel_version))
+                                      workspace=kernel.workspace_for(kernel_version),
+                                      monolithic=False)
 
     try:
         built_kernel.save()
