@@ -233,12 +233,14 @@ def db_to_dict():
 
         series_dict['series_number'] = str(s.series_number)
         del series_dict['key']
+        del series_dict['monolithic']
 
         series_dict['kernels'] = []
 
         for b in built_kernels:
             built_kernel_dict = {**b.__dict__}
             del built_kernel_dict['key']
+            del built_kernel_dict['monolithic']
             del built_kernel_dict['kernel_series']
 
             built_kernel_dict['version'] = str(b.version)
