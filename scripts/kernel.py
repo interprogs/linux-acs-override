@@ -1,5 +1,7 @@
 import json
 import uuid
+import os
+import glob
 from subprocess import check_call
 
 kern_urls = {
@@ -13,8 +15,9 @@ def get_table(name):
 
 
 class JsonTable:
-    def __init__(self, key=None):
+    def __init__(self, key=None, monolithic=True):
         self.key = key if key is not None else str(uuid.uuid4())
+        self.monolithic = monolithic
 
     def save(self):
         self.__class__.series[self.key] = self
@@ -25,8 +28,27 @@ class JsonTable:
                 if issubclass(type(v), JsonTable):
                     d[k] = {'$key': v.key, '$table': v.__class__.__name__}
 
-        with open(self.__class__.backing, 'w') as f:
-            json.dump(data, f, indent=4)
+        mono_data = {k: d for k, d in data.items() if d['monolithic']}
+        nm_data = {k: d for k, d in data.items() if not d['monolithic']}
+
+        for k, v in mono_data.items():
+            del v['monolithic']
+
+        for k, v in nm_data.items():
+            del v['monolithic']
+
+        if len(mono_data.keys()) > 0:
+            with open(self.__class__.backing, 'w') as f:
+                json.dump(mono_data, f, indent=4)
+
+        if len(nm_data.keys()) > 0:
+            backing_dir = '{}.d'.format(self.__class__.backing)
+            print(backing_dir)
+            os.makedirs(backing_dir, exist_ok=True)
+            for k, v in nm_data.items():
+                dpath = os.path.join(backing_dir, '{}.json'.format(k))
+                with open(dpath, 'w') as f:
+                    json.dump({k: v}, f, indent=4)
 
     @classmethod
     def get(cls, key):
@@ -36,6 +58,19 @@ class JsonTable:
     def load(cls):
         with open(cls.backing) as f:
             data = json.load(f)
+
+        backing_dir = '{}.d'.format(cls.backing)
+        if os.path.exists(backing_dir) and os.path.isdir(backing_dir):
+            for fn in glob.glob(os.path.join(backing_dir, '*.json')):
+                with open(fn) as f:
+                    d = json.load(f)
+
+                    key = list(d.keys())[0]
+                    value = d[key]
+
+                    value['monolithic'] = False
+
+                    data[key] = value
 
         for d in data.values():
             for k, v in d.items():
@@ -50,8 +85,8 @@ class JsonTable:
 class KernelVersion(JsonTable):
     backing = 'db/kernel_version.json'
 
-    def __init__(self, major=None, minor=None, patch=None, rc=None, key=None):
-        super().__init__(key)
+    def __init__(self, major=None, minor=None, patch=None, rc=None, key=None, monolithic=True):
+        super().__init__(key, monolithic)
 
         self.major = major
         self.minor = minor
@@ -119,8 +154,8 @@ class KernelVersion(JsonTable):
 class KernelSeries(JsonTable):
     backing = 'db/kernel_series.json'
 
-    def __init__(self, series_number=None, series_number_collapsed=None, key=None):
-        super().__init__(key)
+    def __init__(self, series_number=None, series_number_collapsed=None, key=None, monolithic=True):
+        super().__init__(key, monolithic)
 
         self.series_number = series_number
         self.series_number_collapsed = series_number_collapsed
@@ -148,8 +183,8 @@ class KernelSeries(JsonTable):
 class Workspace(JsonTable):
     backing = 'db/workspace.json'
 
-    def __init__(self, path, version, key=None):
-        super().__init__(key)
+    def __init__(self, path, version, key=None, monolithic=True):
+        super().__init__(key, monolithic)
 
         self.path = path
         self.version = version
@@ -158,8 +193,8 @@ class Workspace(JsonTable):
 class BuiltKernel(JsonTable):
     backing = 'db/built_kernel.json'
 
-    def __init__(self, type, build_job_id, version, kernel_series, workspace, key=None):
-        super().__init__(key)
+    def __init__(self, type, build_job_id, version, kernel_series, workspace, key=None, monolithic=True):
+        super().__init__(key, monolithic)
 
         self.type = type
         self.build_job_id = build_job_id
