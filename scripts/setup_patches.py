@@ -34,7 +34,7 @@ def main(args):
                 kern_tag = 'v{}'.format(kernel_version)
                 print('Checking out kernel tag {}'.format(kern_tag))
 
-                check_call(['git', 'checkout', kern_tag])
+                check_call(['git', 'checkout', kern_tag]) # TODO get tar and apply patches instead of slow git
 
                 print('Patching kernel')
                 check_call(['git', 'apply', '../acso.patch'])
