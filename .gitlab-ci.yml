@@ -62,6 +62,7 @@ kernel:
 
     # Build the kernel
     - export CCACHE_DIR=$KERNEL_WORKSPACE/ccache
+    - ccache -s
     - cp $KERNEL_WORKSPACE/kernel_config $KERNEL_WORKSPACE/linux/.config
     - pushd $KERNEL_WORKSPACE/linux
     - rm -rf .git
