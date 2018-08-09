@@ -1,0 +1,4 @@
+drivers/usb/misc/usbtest.c: In function ‘test_queue’:
+drivers/usb/misc/usbtest.c:2126:1: warning: the frame size of 1184 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+ }
+ ^

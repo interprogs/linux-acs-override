@@ -1,0 +1,4 @@
+drivers/isdn/hardware/eicon/capifunc.c: In function ‘divacapi_connect_didd’:
+drivers/isdn/hardware/eicon/capifunc.c:1094:1: warning: the frame size of 1152 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+ }
+ ^

@@ -1,0 +1,4 @@
+drivers/net/ethernet/neterion/vxge/vxge-main.c: In function ‘VXGE_COMPLETE_VPATH_TX.isra.34’:
+drivers/net/ethernet/neterion/vxge/vxge-main.c:119:1: warning: the frame size of 1048 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+ }
+ ^

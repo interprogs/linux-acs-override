@@ -117,7 +117,7 @@ log:
     - git add db/*
     - "git commit -m \"[CI: $CI_PIPELINE_ID] Add $KERN_MSG_TITLE\""
     - git remote set-url origin git@gitlab.com:Queuecumber/linux-acs-override.git
-    - gt pull --rebase
+    - git pull --rebase
     - git push
 
     # Trigger pages to rebuild
