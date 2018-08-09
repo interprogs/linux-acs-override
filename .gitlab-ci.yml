@@ -61,10 +61,10 @@ kernel:
     - source workspace
 
     # Build the kernel
-    - export CCACHE_DIR=$KERNEL_WORKSPACE/ccache
-    - ccache -s
     - cp $KERNEL_WORKSPACE/kernel_config $KERNEL_WORKSPACE/linux/.config
     - pushd $KERNEL_WORKSPACE/linux
+    - export CCACHE_DIR=../ccache
+    - ccache -s
     - rm -rf .git
     - make olddefconfig
     - make clean
