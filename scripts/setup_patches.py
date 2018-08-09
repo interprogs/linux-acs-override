@@ -28,17 +28,13 @@ def main(args):
 
     if not args.dryrun:
         with pushd(acso_workspace.path):
-            kernel.download_kernel_source(kernel_type)
+            print('Downloading kernel source for {}'.format(kernel_version))
+            kernel.download_kernel_source(kernel_version, kernel_type)
 
             with pushd('linux'):
-                kern_tag = 'v{}'.format(kernel_version)
-                print('Checking out kernel tag {}'.format(kern_tag))
-
-                check_call(['git', 'checkout', kern_tag]) # TODO get tar and apply patches instead of slow git
-
                 print('Patching kernel')
-                check_call(['git', 'apply', '../acso.patch'])
-                check_call(['git', 'apply', '../build.patch'])
+                check_call(['patch', '-p', '1', '-i', '../acso.patch'])
+                check_call(['patch', '-p', '1', '-i', '../build.patch'])
 
         with open('workspace', 'w') as f:
             f.write('export KERNEL_WORKSPACE={}'.format(acso_workspace.path))

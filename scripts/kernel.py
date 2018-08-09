@@ -5,8 +5,8 @@ import glob
 from subprocess import check_call
 
 kern_urls = {
-    'mainline': 'git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git',
-    'stable': 'git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git'
+    'mainline': 'https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/snapshot/linux-{version}.tar.gz',
+    'stable': 'https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/snapshot/linux-{version}.tar.gz'
 }
 
 
@@ -209,8 +209,12 @@ Workspace.load()
 BuiltKernel.load()
 
 
-def download_kernel_source(type):
-    check_call(['git', 'clone', kern_urls[type], 'linux'])
+def download_kernel_source(verson, type):
+    print(kern_urls[type].format(version=verson))
+    check_call(['curl', kern_urls[type].format(version=verson), '--output', 'linux.tar.gz'])
+    os.mkdir('linux')
+    check_call(['tar', 'xf', 'linux.tar.gz', '-C', 'linux', '--strip-components=1'])
+    os.remove('linux.tar.gz')
 
 
 def workspace_for(k):
