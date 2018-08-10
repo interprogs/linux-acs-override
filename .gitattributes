@@ -1,2 +1,1 @@
-*/ccache.tar.xz filter=lfs diff=lfs merge=lfs -text
-workspaces/4.17/ccache.tar.xz filter=lfs diff=lfs merge=lfs -text
+**/ccache.tar.xz filter=lfs diff=lfs merge=lfs -text
