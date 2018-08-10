@@ -1,4 +1,0 @@
-fs/jffs2/xattr.c: In function ‘jffs2_build_xattr_subsystem’:
-fs/jffs2/xattr.c:887:1: warning: the frame size of 1112 bytes is larger than 1024 bytes [-Wframe-larger-than=]
- }
- ^

@@ -1,4 +1,0 @@
-drivers/isdn/hardware/eicon/divasfunc.c: In function ‘connect_didd’:
-drivers/isdn/hardware/eicon/divasfunc.c:192:1: warning: the frame size of 1152 bytes is larger than 1024 bytes [-Wframe-larger-than=]
- }
- ^
