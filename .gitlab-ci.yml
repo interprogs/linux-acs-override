@@ -18,6 +18,7 @@ kernel:
   script:
     # Install dependencies
     - export DEBIAN_FRONTEND=noninteractive
+    - curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash
     - >
       apt-get install -y
       build-essential
@@ -55,6 +56,8 @@ kernel:
       asciidoc
       debhelper
       docbook-utils
+      git-lfs
+    - git lfs pull
 
     # Download kernel source and patch it
     - python3.6 scripts/setup_patches.py "$KERN_MSG_TITLE"
@@ -62,6 +65,7 @@ kernel:
 
     # Build the kernel
     - cp $KERNEL_WORKSPACE/kernel_config $KERNEL_WORKSPACE/linux/.config
+    - tar xf $KERNEL_WORKSPACE/ccache.tar.xz -C $KERNEL_WORKSPACE
     - pushd $KERNEL_WORKSPACE/linux
     - export CCACHE_DIR=../ccache
     - ccache -s
