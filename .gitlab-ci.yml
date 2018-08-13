@@ -10,7 +10,7 @@ stages:
 # These have to be done before pretty much all jobs
 before_script:
   - apt-get update
-  - apt-get install -y python3.6 git
+  - apt-get install -y python3.6 git curl
 
 # Patch and build the kernel
 kernel:
