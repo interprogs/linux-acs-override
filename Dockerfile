@@ -1,5 +1,7 @@
 FROM ubuntu:18.04
 
+ENV DEBIAN_FRONTEND=noninteractive
+
 # Pre-install
 RUN apt-get update && apt-get -y install python3.6 git curl
 
