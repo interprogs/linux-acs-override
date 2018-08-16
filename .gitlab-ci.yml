@@ -24,7 +24,7 @@ kernel:
   - pushd $KERNEL_WORKSPACE/linux
   - ccache -s
   - make olddefconfig
-  - KBUILD_BUILD_TIMESTAMP='' make CC="ccache gcc" CXX="ccache g++" -j `getconf _NPROCESSORS_ONLN` deb-pkg LOCALVERSION=-acso
+  - KBUILD_BUILD_TIMESTAMP='' make -j `getconf _NPROCESSORS_ONLN` deb-pkg LOCALVERSION=-acso
   - ccache -s
   - popd
 
