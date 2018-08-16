@@ -4,127 +4,131 @@ variables:
   DOCKER_DRIVER: overlay2
 
 stages:
-  - build
-  - log
+- build
+- log
 
 # These have to be done before pretty much all jobs
 before_script:
-  - apt-get update
-  - apt-get install -y python3.6 git curl
+- apt-get update
+- apt-get install -y python3.6 git curl
 
 # Patch and build the kernel
 kernel:
   stage: build
   script:
-    # Install dependencies
-    - export DEBIAN_FRONTEND=noninteractive
-    - curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash
-    - >
-      apt-get install -y
-      build-essential
-      kernel-package
-      fakeroot
-      libncurses5-dev
-      libssl-dev
-      ccache
-      libelf-dev
-      bsdmainutils
-      bison
-      flex
-      dh-systemd
-      kernel-wedge
-      makedumpfile
-      libnewt-dev
-      libiberty-dev
-      rsync
-      libdw-dev
-      libpci-dev
-      pkg-config
-      libunwind8-dev
-      liblzma-dev
-      libaudit-dev
-      python-dev
-      gawk
-      libudev-dev
-      autoconf
-      automake
-      libtool
-      uuid-dev
-      binutils-dev
-      transfig
-      sharutils
-      asciidoc
-      debhelper
-      docbook-utils
-      git-lfs
-    - git lfs pull
+  # Install dependencies
+  - curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash
+  - >
+    apt-get install -y
+    build-essential
+    kernel-package
+    fakeroot
+    libncurses5-dev
+    libssl-dev
+    ccache
+    libelf-dev
+    bsdmainutils
+    bison
+    flex
+    dh-systemd
+    kernel-wedge
+    makedumpfile
+    libnewt-dev
+    libiberty-dev
+    rsync
+    libdw-dev
+    libpci-dev
+    pkg-config
+    libunwind8-dev
+    liblzma-dev
+    libaudit-dev
+    python-dev
+    gawk
+    libudev-dev
+    autoconf
+    automake
+    libtool
+    uuid-dev
+    binutils-dev
+    transfig
+    sharutils
+    asciidoc
+    debhelper
+    docbook-utils
+    git-lfs
+  - git lfs pull
 
-    # Download kernel source and patch it
-    - python3.6 scripts/setup_patches.py "$KERN_MSG_TITLE"
-    - source workspace
+  # Download kernel source and patch it
+  - python3.6 scripts/setup_patches.py "$KERN_MSG_TITLE"
+  - source workspace
 
-    # Build the kernel
-    - cp $KERNEL_WORKSPACE/kernel_config $KERNEL_WORKSPACE/linux/.config
-    - tar xf $KERNEL_WORKSPACE/ccache.tar.xz -C $KERNEL_WORKSPACE
-    - pushd $KERNEL_WORKSPACE/linux
-    - export CCACHE_DIR=../ccache
-    - ccache -s
-    - rm -rf .git
-    - make olddefconfig
-    - make clean
-    - make CC="ccache gcc" -j `getconf _NPROCESSORS_ONLN` deb-pkg LOCALVERSION=-acso
-    - ccache -s
-    - popd
+  # Build the kernel
+  - cp $KERNEL_WORKSPACE/kernel_config $KERNEL_WORKSPACE/linux/.config
+  - tar xf $KERNEL_WORKSPACE/ccache.tar.xz -C $KERNEL_WORKSPACE
+  - pushd $KERNEL_WORKSPACE/linux
+  - ccache -s
+  - rm -rf .git
+  - make olddefconfig
+  - make clean
+  - make -j `getconf _NPROCESSORS_ONLN` deb-pkg LOCALVERSION=-acso
+  - ccache -s
+  - popd
 
-    # Store the build artifacts
-    - cp $KERNEL_WORKSPACE/*.deb .
-    - cp $KERNEL_WORKSPACE/*.tar.gz .
-    - cp $KERNEL_WORKSPACE/*.changes .
-    - cp $KERNEL_WORKSPACE/*.dsc .
+  # Store the build artifacts
+  - cp $KERNEL_WORKSPACE/*.deb .
+  - cp $KERNEL_WORKSPACE/*.tar.gz .
+  - cp $KERNEL_WORKSPACE/*.changes .
+  - cp $KERNEL_WORKSPACE/*.dsc .
 
-    # Save the job ID for later
-    - echo $CI_JOB_ID > BUILD_JOB_ID
+  # Save the job ID for later
+  - echo $CI_JOB_ID > BUILD_JOB_ID
+  variables:
+    DEBIAN_FRONTEND: noninteractive
+    CCACHE_DIR: ../ccache
+    KBUILD_BUILD_TIMESTAMP: ''
+    CC: ccache gcc
+    CXX: ccache g++
   only:
-    - triggers
+  - triggers
   artifacts:
     paths:
-      - ./*.deb
-      - ./*.tar.gz
-      - ./*.changes
-      - ./*.dsc
-      - BUILD_JOB_ID
+    - ./*.deb
+    - ./*.tar.gz
+    - ./*.changes
+    - ./*.dsc
+    - BUILD_JOB_ID
 
 # Log the build in git
 log:
   stage: log
   script:
-    # Install curl to trigger the pages job
-    - apt-get install -y curl
+  # Install curl to trigger the pages job
+  - apt-get install -y curl
 
-    # Update the database with the built kernel informtion
-    - BUILD_JOB_ID=$(cat BUILD_JOB_ID)
-    - python3.6 scripts/log_build.py "$KERN_MSG_TITLE" $BUILD_JOB_ID
+  # Update the database with the built kernel informtion
+  - BUILD_JOB_ID=$(cat BUILD_JOB_ID)
+  - python3.6 scripts/log_build.py "$KERN_MSG_TITLE" $BUILD_JOB_ID
 
-    # Store ssh push credentials
-    - mkdir -p ~/.ssh
-    - echo "$CI_PUSH_KEY" | tr -d '\r' > ~/.ssh/id_rsa
-    - chmod 600 ~/.ssh/id_rsa
-    - ssh-keyscan -H 'gitlab.com' >> ~/.ssh/known_hosts
+  # Store ssh push credentials
+  - mkdir -p ~/.ssh
+  - echo "$CI_PUSH_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+  - chmod 600 ~/.ssh/id_rsa
+  - ssh-keyscan -H 'gitlab.com' >> ~/.ssh/known_hosts
 
-    # Configure git
-    - git config --global user.email max.ehr@gmail.com
-    - git config --global user.name Queuecumber
-    - git remote -v
-    - git checkout $CI_COMMIT_REF_NAME
+  # Configure git
+  - git config --global user.email max.ehr@gmail.com
+  - git config --global user.name Queuecumber
+  - git remote -v
+  - git checkout $CI_COMMIT_REF_NAME
 
-    # Commit the new database and store it on the server
-    - git add db/*
-    - "git commit -m \"[CI: $CI_PIPELINE_ID] Add $KERN_MSG_TITLE\""
-    - git remote set-url origin git@gitlab.com:Queuecumber/linux-acs-override.git
-    - git pull --rebase
-    - git push
+  # Commit the new database and store it on the server
+  - git add db/*
+  - "git commit -m \"[CI: $CI_PIPELINE_ID] Add $KERN_MSG_TITLE\""
+  - git remote set-url origin git@gitlab.com:Queuecumber/linux-acs-override.git
+  - git pull --rebase
+  - git push
 
-    # Trigger pages to rebuild
-    - curl --request POST --form "token=$CI_JOB_TOKEN" https://gitlab.com/api/v4/projects/2887717/ref/pages/trigger/pipeline
+  # Trigger pages to rebuild
+  - curl --request POST --form "token=$CI_JOB_TOKEN" https://gitlab.com/api/v4/projects/2887717/ref/pages/trigger/pipeline
   only:
-    - triggers
+  - triggers
