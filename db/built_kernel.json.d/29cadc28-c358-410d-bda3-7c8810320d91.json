@@ -1,0 +1,19 @@
+{
+    "29cadc28-c358-410d-bda3-7c8810320d91": {
+        "key": "29cadc28-c358-410d-bda3-7c8810320d91",
+        "type": "stable",
+        "build_job_id": "89893954",
+        "version": {
+            "$key": "4c1fa33d-5fbe-4594-b3ea-a77bb2e5aeaf",
+            "$table": "KernelVersion"
+        },
+        "kernel_series": {
+            "$key": "64bb0870-32ce-4051-ba4c-8d83b53bee00",
+            "$table": "KernelSeries"
+        },
+        "workspace": {
+            "$key": "3df99645-d619-4f9b-ad54-8de2bed6ee7e",
+            "$table": "Workspace"
+        }
+    }
+}
