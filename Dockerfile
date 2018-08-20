@@ -2,14 +2,10 @@ FROM ubuntu:18.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Pre-install
-RUN apt-get update && apt-get -y install python3.6 git curl
-
-# git lfs
-RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash
-
 # kernel-build dependencies
-RUN apt-get install -y \
+RUN apt-get update && apt-get install -y \
+    python3.6 \
+    git \
     build-essential \
     kernel-package \
     fakeroot \
@@ -44,6 +40,4 @@ RUN apt-get install -y \
     sharutils \
     asciidoc \
     debhelper \
-    docbook-utils \
-    git-lfs
-
+    docbook-utils
