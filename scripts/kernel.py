@@ -28,14 +28,16 @@ class JsonTable:
                 if issubclass(type(v), JsonTable):
                     d[k] = {'$key': v.key, '$table': v.__class__.__name__}
 
-        mono_data = {k: d for k, d in data.items() if d['monolithic']}
-        nm_data = {k: d for k, d in data.items() if not d['monolithic']}
+        mono_data = {k: d for k, d in data.items() if 'monolithic' not in d or d['monolithic']}
+        nm_data = {k: d for k, d in data.items() if 'monolithic' in d and not d['monolithic']}
 
         for k, v in mono_data.items():
-            del v['monolithic']
+            if 'monolithic' in v:
+                del v['monolithic']
 
         for k, v in nm_data.items():
-            del v['monolithic']
+            if 'monolithic' in v:
+                del v['monolithic']
 
         if len(mono_data.keys()) > 0:
             with open(self.__class__.backing, 'w') as f:
@@ -108,8 +110,8 @@ class KernelVersion(JsonTable):
         return kstring.format(**self.__dict__)
 
     @classmethod
-    def parse(cls, kernel_string):
-        kspec = KernelVersion()
+    def parse(cls, kernel_string, monolithic=True):
+        kspec = KernelVersion(monolithic=monolithic)
 
         if kernel_string.count(':') > 0:
             kversion, ktype = map(str.strip, kernel_string.split(':'))
@@ -161,8 +163,8 @@ class KernelSeries(JsonTable):
         self.series_number_collapsed = series_number_collapsed
 
     @classmethod
-    def from_version(cls, version):
-        series_number = KernelVersion(major=version.major, minor=version.minor)
+    def from_version(cls, version, monolithic=True):
+        series_number = KernelVersion(major=version.major, minor=version.minor, monolithic=monolithic)
 
         try:
             series_number = KernelVersion.match(series_number)
@@ -170,7 +172,9 @@ class KernelSeries(JsonTable):
             series_number.save()
 
         series_number_collapsed = '{v.major}{v.minor}'.format(v=series_number)
-        series_obj = KernelSeries(series_number=series_number, series_number_collapsed=series_number_collapsed)
+        series_obj = KernelSeries(series_number=series_number,
+                                  series_number_collapsed=series_number_collapsed,
+                                  monolithic=monolithic)
 
         try:
             series_obj = [s for s in KernelSeries.series.values() if s.series_number.key == series_obj.series_number.key][0]

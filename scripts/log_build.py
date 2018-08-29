@@ -5,10 +5,8 @@ import kernel
 def main(args):
     print('Storing successful build of {} for job {}'.format(args.kernel_string, args.job_id))
 
-    kernel_version, kernel_type = kernel.KernelVersion.parse(args.kernel_string)
-    kernel_series = kernel.KernelSeries.from_version(kernel_version)
-
-    kernel_version.monolithic = False
+    kernel_version, kernel_type = kernel.KernelVersion.parse(args.kernel_string, monolithic=False)
+    kernel_series = kernel.KernelSeries.from_version(kernel_version, monolithic=False)
 
     kernel_version.save()
     kernel_series.save()
