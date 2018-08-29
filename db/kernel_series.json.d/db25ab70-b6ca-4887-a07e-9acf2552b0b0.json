@@ -1,0 +1,10 @@
+{
+    "db25ab70-b6ca-4887-a07e-9acf2552b0b0": {
+        "key": "db25ab70-b6ca-4887-a07e-9acf2552b0b0",
+        "series_number": {
+            "$key": "8153dce0-8543-48a6-bbad-29e85e440cd1",
+            "$table": "KernelVersion"
+        },
+        "series_number_collapsed": "419"
+    }
+}
