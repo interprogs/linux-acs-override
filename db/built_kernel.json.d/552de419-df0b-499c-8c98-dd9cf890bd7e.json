@@ -1,0 +1,19 @@
+{
+    "552de419-df0b-499c-8c98-dd9cf890bd7e": {
+        "key": "552de419-df0b-499c-8c98-dd9cf890bd7e",
+        "type": "stable",
+        "build_job_id": "110547876",
+        "version": {
+            "$key": "2131de7e-bb89-43a7-b926-f4a41e62510a",
+            "$table": "KernelVersion"
+        },
+        "kernel_series": {
+            "$key": "64bb0870-32ce-4051-ba4c-8d83b53bee00",
+            "$table": "KernelSeries"
+        },
+        "workspace": {
+            "$key": "3df99645-d619-4f9b-ad54-8de2bed6ee7e",
+            "$table": "Workspace"
+        }
+    }
+}
