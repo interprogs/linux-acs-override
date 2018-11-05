@@ -978,5 +978,250 @@
         "minor": 18,
         "patch": null,
         "rc": 8
+    },
+    "2e5beac4-fec4-4d99-8103-25cedd5d4d3c": {
+        "key": "2e5beac4-fec4-4d99-8103-25cedd5d4d3c",
+        "major": 4,
+        "minor": 18,
+        "patch": 17,
+        "rc": null
+    },
+    "4d064805-cfb8-4c58-97c0-31b3cfb03492": {
+        "key": "4d064805-cfb8-4c58-97c0-31b3cfb03492",
+        "major": 4,
+        "minor": 17,
+        "patch": 19,
+        "rc": null
+    },
+    "8153dce0-8543-48a6-bbad-29e85e440cd1": {
+        "key": "8153dce0-8543-48a6-bbad-29e85e440cd1",
+        "major": 4,
+        "minor": 19,
+        "patch": null,
+        "rc": null
+    },
+    "e6a23355-7319-4ac4-bf77-3c751dd971d6": {
+        "key": "e6a23355-7319-4ac4-bf77-3c751dd971d6",
+        "major": 4,
+        "minor": 18,
+        "patch": 9,
+        "rc": null
+    },
+    "d81bb376-e796-4b9e-b502-454b01654483": {
+        "key": "d81bb376-e796-4b9e-b502-454b01654483",
+        "major": 4,
+        "minor": 18,
+        "patch": 4,
+        "rc": null
+    },
+    "eff393b3-9610-4b4e-8164-fe9032199bbe": {
+        "key": "eff393b3-9610-4b4e-8164-fe9032199bbe",
+        "major": 4,
+        "minor": 17,
+        "patch": 15,
+        "rc": null
+    },
+    "f68a5dd6-49bd-40ee-9efc-3c29411f1f8c": {
+        "key": "f68a5dd6-49bd-40ee-9efc-3c29411f1f8c",
+        "major": 4,
+        "minor": 19,
+        "patch": null,
+        "rc": 3
+    },
+    "a87b2c5b-43db-4f12-b3ce-f0430b5e71fa": {
+        "key": "a87b2c5b-43db-4f12-b3ce-f0430b5e71fa",
+        "major": 4,
+        "minor": 18,
+        "patch": 8,
+        "rc": null
+    },
+    "89de56c7-ef77-4213-b9cc-adc75e56c9b5": {
+        "key": "89de56c7-ef77-4213-b9cc-adc75e56c9b5",
+        "major": 4,
+        "minor": 18,
+        "patch": 11,
+        "rc": null
+    },
+    "0853019d-37f7-4c4f-ba4b-c464dd194d53": {
+        "key": "0853019d-37f7-4c4f-ba4b-c464dd194d53",
+        "major": 4,
+        "minor": 19,
+        "patch": null,
+        "rc": 2
+    },
+    "4c1fa33d-5fbe-4594-b3ea-a77bb2e5aeaf": {
+        "key": "4c1fa33d-5fbe-4594-b3ea-a77bb2e5aeaf",
+        "major": 4,
+        "minor": 18,
+        "patch": 1,
+        "rc": null
+    },
+    "350ad61c-959e-45d8-bfb5-3c2f74982a2c": {
+        "key": "350ad61c-959e-45d8-bfb5-3c2f74982a2c",
+        "major": 4,
+        "minor": 19,
+        "patch": null,
+        "rc": 8
+    },
+    "b1fcc328-ac7f-479b-b867-0a933add02bb": {
+        "key": "b1fcc328-ac7f-479b-b867-0a933add02bb",
+        "major": 4,
+        "minor": 19,
+        "patch": null,
+        "rc": 7
+    },
+    "07968e65-b9cf-40d0-ad69-33414e988d8c": {
+        "key": "07968e65-b9cf-40d0-ad69-33414e988d8c",
+        "major": 4,
+        "minor": 18,
+        "patch": 6,
+        "rc": null
+    },
+    "bf9902b6-7c7a-4f8d-a2de-550144204b3a": {
+        "key": "bf9902b6-7c7a-4f8d-a2de-550144204b3a",
+        "major": 4,
+        "minor": 19,
+        "patch": null,
+        "rc": 5
+    },
+    "716fe241-5e6c-4c79-88cd-e191257914a2": {
+        "key": "716fe241-5e6c-4c79-88cd-e191257914a2",
+        "major": 4,
+        "minor": 19,
+        "patch": 1,
+        "rc": null
+    },
+    "0be3a41d-bdcc-49d4-8e6c-eca82681f25c": {
+        "key": "0be3a41d-bdcc-49d4-8e6c-eca82681f25c",
+        "major": 4,
+        "minor": 18,
+        "patch": 3,
+        "rc": null
+    },
+    "70240edd-038d-4fd6-a650-5060b934abab": {
+        "key": "70240edd-038d-4fd6-a650-5060b934abab",
+        "major": 4,
+        "minor": 18,
+        "patch": 15,
+        "rc": null
+    },
+    "f6b48ec3-f678-40f6-aeb1-b0c26766b014": {
+        "key": "f6b48ec3-f678-40f6-aeb1-b0c26766b014",
+        "major": 4,
+        "minor": 18,
+        "patch": 5,
+        "rc": null
+    },
+    "43a60cac-ea1a-4a5c-830b-bd9d16a30c2a": {
+        "key": "43a60cac-ea1a-4a5c-830b-bd9d16a30c2a",
+        "major": 4,
+        "minor": 18,
+        "patch": 7,
+        "rc": null
+    },
+    "60ec4145-32fa-4303-bf80-0edde4bebfec": {
+        "key": "60ec4145-32fa-4303-bf80-0edde4bebfec",
+        "major": 4,
+        "minor": 18,
+        "patch": 13,
+        "rc": null
+    },
+    "20f95cd1-b566-4480-a2c3-0b298d43f67d": {
+        "key": "20f95cd1-b566-4480-a2c3-0b298d43f67d",
+        "major": 4,
+        "minor": 17,
+        "patch": 17,
+        "rc": null
+    },
+    "07ac71ec-8947-44dd-a6a4-507e2a28d813": {
+        "key": "07ac71ec-8947-44dd-a6a4-507e2a28d813",
+        "major": 4,
+        "minor": 17,
+        "patch": 18,
+        "rc": null
+    },
+    "e0c29826-4ea4-499b-8f9f-1b5636a1220f": {
+        "key": "e0c29826-4ea4-499b-8f9f-1b5636a1220f",
+        "major": 4,
+        "minor": 18,
+        "patch": 14,
+        "rc": null
+    },
+    "35153b9e-bf33-45a0-882f-209aef5ad27d": {
+        "key": "35153b9e-bf33-45a0-882f-209aef5ad27d",
+        "major": 4,
+        "minor": 19,
+        "patch": null,
+        "rc": 6
+    },
+    "1ce311c5-154b-4cc6-ba9d-6575b4e4236a": {
+        "key": "1ce311c5-154b-4cc6-ba9d-6575b4e4236a",
+        "major": 4,
+        "minor": 18,
+        "patch": 2,
+        "rc": null
+    },
+    "9687d8d5-8b39-46f3-b012-08f76e98f2c5": {
+        "key": "9687d8d5-8b39-46f3-b012-08f76e98f2c5",
+        "major": 4,
+        "minor": 19,
+        "patch": null,
+        "rc": 4
+    },
+    "9b62e9f1-8d45-4d46-a146-40a6c773991d": {
+        "key": "9b62e9f1-8d45-4d46-a146-40a6c773991d",
+        "major": 4,
+        "minor": 18,
+        "patch": 12,
+        "rc": null
+    },
+    "08213140-b18f-4631-829f-f6213faa705a": {
+        "key": "08213140-b18f-4631-829f-f6213faa705a",
+        "major": 4,
+        "minor": 17,
+        "patch": 16,
+        "rc": null
+    },
+    "043cb937-8102-47cf-b6d3-1aa037427453": {
+        "key": "043cb937-8102-47cf-b6d3-1aa037427453",
+        "major": 4,
+        "minor": 18,
+        "patch": null,
+        "rc": null
+    },
+    "ccd959dd-6857-4929-a25e-fb92014ab6b8": {
+        "key": "ccd959dd-6857-4929-a25e-fb92014ab6b8",
+        "major": 4,
+        "minor": 18,
+        "patch": 10,
+        "rc": null
+    },
+    "f5788f7a-a597-4390-9a6c-bcb94bf3b8a1": {
+        "key": "f5788f7a-a597-4390-9a6c-bcb94bf3b8a1",
+        "major": 4,
+        "minor": 17,
+        "patch": 14,
+        "rc": null
+    },
+    "1c0a36ab-dac6-4d26-9509-53dc188bcf60": {
+        "key": "1c0a36ab-dac6-4d26-9509-53dc188bcf60",
+        "major": 4,
+        "minor": 19,
+        "patch": null,
+        "rc": 1
+    },
+    "2131de7e-bb89-43a7-b926-f4a41e62510a": {
+        "key": "2131de7e-bb89-43a7-b926-f4a41e62510a",
+        "major": 4,
+        "minor": 18,
+        "patch": 16,
+        "rc": null
+    },
+    "6d4d444d-28c5-4990-805b-dfef46e2b2d7": {
+        "key": "6d4d444d-28c5-4990-805b-dfef46e2b2d7",
+        "major": 4,
+        "minor": 20,
+        "patch": null,
+        "rc": null
     }
 }

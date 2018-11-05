@@ -1,0 +1,10 @@
+{
+    "83aea4d0-b730-46d1-928e-cbb0afb57827": {
+        "key": "83aea4d0-b730-46d1-928e-cbb0afb57827",
+        "series_number": {
+            "$key": "6d4d444d-28c5-4990-805b-dfef46e2b2d7",
+            "$table": "KernelVersion"
+        },
+        "series_number_collapsed": "420"
+    }
+}
